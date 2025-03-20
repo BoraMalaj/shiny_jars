@@ -319,6 +319,7 @@ button {
     }
     /* end of hamburger menu */
 
+    /* 3D effect and hover animation for desktop only */
     .drop-zone {
         /* Add a subtle border and shadow for 3D effect */
         border: 1px solid rgba(255, 215, 0, 0.3); /* Gold border with transparency */
