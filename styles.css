@@ -80,6 +80,36 @@ p {
 }
 /* end of header and footer for desktop */
 
+/* added by AQA for the footer social media icons */
+.site-footer {
+    background-color: #2a2a2a;
+    padding: 20px;
+    text-align: center;
+    color: #e0e0e0;
+}
+
+.footer-content p {
+    margin: 5px 0;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.social-icon {
+    width: 30px;
+    height: 30px;
+    transition: transform 0.3s ease;
+}
+
+.social-icon:hover {
+    transform: scale(1.1);
+}
+/* end of the footer changes */
+
 .container {
     display: flex;
     flex-direction: column;
