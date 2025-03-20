@@ -318,6 +318,34 @@ button {
         transform: translateY(-8px) rotate(-45deg);
     }
     /* end of hamburger menu */
+
+    .drop-zone {
+        /* Add a subtle border and shadow for 3D effect */
+        border: 1px solid rgba(255, 215, 0, 0.3); /* Gold border with transparency */
+        border-radius: 10px;
+        background: #2a2a2a; /* Match your dark theme */
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5), 
+                    inset 0 2px 5px rgba(255, 215, 0, 0.1); /* Outer shadow and inner glow */
+        transform: perspective(1000px) rotateX(0deg) rotateY(0deg); /* 3D perspective */
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .drop-zone:hover {
+        /* Subtle lift and tilt on hover */
+        transform: perspective(1000px) rotateX(2deg) rotateY(-2deg) translateZ(10px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7), 
+                    inset 0 2px 5px rgba(255, 215, 0, 0.2);
+    }
+
+    /* Ensure the base image inside the container also looks 3D */
+    .drop-zone .base-image {
+        filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.7));
+        transition: transform 0.3s ease;
+    }
+
+    .drop-zone:hover .base-image {
+        transform: scale(1.02); /* Slight zoom on hover */
+    }
     
     .section-pair {
         flex-direction: column;
