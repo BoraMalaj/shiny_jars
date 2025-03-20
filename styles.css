@@ -350,15 +350,15 @@ button {
     }
 
     .draggable.on-wrist {
-        width: 50px;
+        width: 55px;
     }
 
     .draggable.on-neck {
-        width: 100px;
+        width: 110px;
     }
 
     .draggable.on-ear {
-        width: 20px;
+        width: 25px; /* increased by AQA from 20 to 25 */
     }
 
     .finger-zone { width: 20px; height: 30px; }
