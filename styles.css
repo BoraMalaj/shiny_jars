@@ -35,8 +35,14 @@ p {
 }
 
 .logo-image {
-    height: 40px; /* Adjust based on your logo size */
+    height: 50px; /* Adjust based on your logo size */
     width: auto;
+}
+
+.logo-text {
+    font-size: 1.5rem;
+    color: #ffd700;
+    margin: 0;
 }
 
 .hamburger {
@@ -109,6 +115,12 @@ p {
     transform: scale(1.1);
 }
 /* end of the footer changes */
+
+/* disable haptic touch interface */
+.draggable {
+    -webkit-touch-callout: none; /* Prevents haptic touch/long-press on iOS */
+    user-select: none; /* Prevents text selection during drag */
+}
 
 .container {
     display: flex;
