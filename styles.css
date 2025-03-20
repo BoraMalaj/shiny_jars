@@ -1,0 +1,335 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+    margin: 0;
+    padding: 10px;
+}
+
+h1 {
+    color: #ffd700;
+    font-size: 2rem;
+}
+
+p {
+    font-size: 1rem;
+}
+
+/* added menu header and footer by AQA */
+.site-header {
+    background-color: #2a2a2a; /* Matches your dark theme */
+    padding: 10px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.logo-image {
+    height: 40px; /* Adjust based on your logo size */
+    width: auto;
+}
+
+.hamburger {
+    display: none; /* Hidden on desktop */
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: #ffd700; /* Gold color to match your theme */
+    margin: 5px 0;
+    transition: all 0.3s ease;
+}
+
+.main-menu {
+    display: flex;
+}
+
+.main-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 20px;
+}
+
+.main-menu a {
+    color: #e0e0e0;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.main-menu a:hover {
+    color: #ffd700;
+}
+/* end of header and footer for desktop */
+
+.container {
+    display: flex;
+    flex-direction: column;
+    margin: 20px auto;
+    max-width: 1000px;
+}
+
+.section-pair {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    gap: 20px;
+}
+
+.accessory-section, .drop-zone {
+    width: 45%;
+    padding: 20px;
+}
+
+.accessory-section {
+    border: 2px dashed #444;
+    background-color: #2a2a2a;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 400px;
+}
+
+.accessory-section h2 {
+    color: #ffd700;
+    font-size: 1.2rem;
+    margin: 0 0 10px;
+}
+
+.sub-section {
+    margin-bottom: 10px;
+}
+
+.sub-section h3 {
+    color: #e0e0e0;
+    font-size: 1rem;
+    margin: 5px 0;
+}
+
+.accessory-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.drop-zone {
+    position: relative;
+    width: 250px;
+    height: 250px;
+}
+
+.base-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.5s ease;
+    position: relative;
+    z-index: 5;
+    filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.7));
+}
+
+.finger-zone, .wrist-zone, .neck-zone, .ear-zone {
+    position: absolute;
+    z-index: 20;
+    border: 2px dashed #ffd700;
+    background: rgba(255, 215, 0, 0.3);
+}
+
+/* Hand zones */
+.finger-zone { width: 25px; height: 40px; }
+[data-finger="thumb"] { top: 150px; left: 30px; }
+[data-finger="index"] { top: 100px; left: 60px; }
+[data-finger="middle"] { top: 80px; left: 100px; }
+[data-finger="ring"] { top: 90px; left: 130px; }
+[data-finger="pinky"] { top: 110px; left: 160px; }
+.wrist-zone { width: 60px; height: 30px; top: 200px; left: 110px; } /* left parameter changed by AQA from 90 originally */
+
+/* Neck zone */
+.neck-zone { width: 120px; height: 80px; top: 210px; left: 77px; } /* left parameter changed by AQA from 55 originally and top parameter from 150 originally */
+
+/* Ear zone */
+.ear-zone { width: 25px; height: 25px; top: 125px; left: 170px; } /* left parameter changed by AQA from 90 originally and top parameter from 90 originally */
+
+/* Buttons */
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.draggable {
+    width: 80px;
+    height: auto;
+    margin: 5px;
+    cursor: move;
+    filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
+    transition: width 0.2s ease, transform 0.2s ease;
+    z-index: 15;
+}
+
+.draggable.dragging {
+    opacity: 0.5;
+}
+
+.draggable.on-finger {
+    width: 40px;
+    transform: translate(-50%, -50%) scale(0.8) rotate(15deg);
+    filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.8));
+}
+
+.draggable.on-wrist {
+    width: 60px;
+    transform: translate(-50%, -50%) scale(0.9) rotate(0deg);
+    filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.8));
+}
+
+.draggable.on-neck {
+    width: 120px;
+    transform: translate(-50%, -50%) scale(0.9) rotate(0deg);
+    filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.8));
+}
+
+.draggable.on-ear {
+    width: 30px;
+    transform: translate(-50%, -50%) scale(0.8) rotate(15deg);
+    filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.8));
+}
+
+button {
+    margin: 0;
+    padding: 5px 15px;
+    background-color: #ffd700;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    /* added hamburger menu for header and footer by AQA */
+    .hamburger {
+        display: block; /* Show hamburger on mobile */
+    }
+
+    .main-menu {
+        position: fixed;
+        top: 0;
+        right: -100%; /* Hidden off-screen by default */
+        height: 100vh;
+        width: 250px;
+        background-color: #2a2a2a;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: right 0.3s ease;
+        z-index: 99;
+    }
+
+    .main-menu.active {
+        right: 0; /* Slide in when active */
+    }
+
+    .main-menu ul {
+        flex-direction: column;
+        gap: 30px;
+        text-align: center;
+    }
+
+    .main-menu a {
+        font-size: 1.2rem;
+        color: #e0e0e0;
+    }
+
+    /* Hamburger animation when active */
+    .hamburger.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+
+    .hamburger.active .bar:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+
+    .hamburger.active .bar:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+    /* end of hamburger menu */
+    
+    .section-pair {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px; /* Reduced gap for mobile */
+        margin-bottom: 30px;
+    }
+
+    .accessory-section, .drop-zone {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .accessory-section {
+        min-height: 200px;
+    }
+
+    .drop-zone {
+        width: 200px;
+        height: 200px;
+    }
+
+    .draggable {
+        width: 60px;
+    }
+
+    .draggable.on-finger {
+        width: 30px;
+    }
+
+    .draggable.on-wrist {
+        width: 50px;
+    }
+
+    .draggable.on-neck {
+        width: 100px;
+    }
+
+    .draggable.on-ear {
+        width: 20px;
+    }
+
+    .finger-zone { width: 20px; height: 30px; }
+    [data-finger="thumb"] { top: 120px; left: 25px; }
+    [data-finger="index"] { top: 80px; left: 50px; }
+    [data-finger="middle"] { top: 60px; left: 80px; }
+    [data-finger="ring"] { top: 70px; left: 105px; }
+    [data-finger="pinky"] { top: 90px; left: 130px; }
+    .wrist-zone { width: 50px; height: 25px; top: 160px; left: 80px; } /* left parameter changed by AQA from 70 originally and top parameter from 150 originally */
+
+    .neck-zone { width: 100px; height: 60px; top: 165px; left: 55px; } /* left parameter changed by AQA from 45 originally and top parameter from 150 originally */
+    .ear-zone { width: 20px; height: 20px; top: 100px; left: 125px; } /* left parameter changed by AQA from 70 originally and top parameter from 70 originally */
+
+    h1 { font-size: 1.5rem; }
+    p { font-size: 0.9rem; }
+    .accessory-section h2 { font-size: 1rem; }
+    .sub-section h3 { font-size: 0.9rem; }
+}
