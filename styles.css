@@ -342,7 +342,7 @@ button {
 
     .draggable {
         width: 60px;
-        -webkit-user-drag: none; /* Disable iOS drag preview */
+        /* -webkit-user-drag: none; */ /* Disable iOS drag preview */
     }
 
     .draggable.on-finger {
