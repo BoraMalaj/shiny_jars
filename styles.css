@@ -170,8 +170,8 @@ p {
 .accessory-items {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
+    gap: 11px; /* changed by AQA from 10px to 11px */
+    justify-content: left; /* changed by AQA from center to left */
 }
 
 .drop-zone {
