@@ -141,7 +141,7 @@ p {
     padding: 20px;
 }
 
-/* .accessory-section {
+.accessory-section {
     border: 2px dashed #444;
     background-color: #2a2a2a;
     border-radius: 8px;
@@ -149,7 +149,7 @@ p {
     flex-direction: column;
     justify-content: center;
     min-height: 400px;
-} */
+}
 
 .accessory-section h2 {
     color: #ffd700;
