@@ -268,6 +268,81 @@ button {
     font-size: 0.9rem;
 }
 
+/* Start Page Styles */
+.start-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); /* Dark gradient background */
+    color: #e0e0e0;
+    text-align: center;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.tagline {
+    font-size: 2.5rem;
+    color: #ffd700; /* Gold color */
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    margin-bottom: 30px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.jar-container {
+    width: 300px;
+    height: 300px;
+    margin-bottom: 30px;
+}
+
+.rotating-jar {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    animation: rotateJar 4s linear infinite; /* 4-second rotation */
+    filter: drop-shadow(0 5px 15px rgba(255, 215, 0, 0.3)); /* Gold glow */
+}
+
+.continue-button {
+    display: inline-block;
+    padding: 10px 30px;
+    background-color: #ffd700;
+    color: #1a1a1a;
+    text-decoration: none;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    animation: fadeIn 1s ease-in-out 1s; /* Delayed fade-in */
+}
+
+.continue-button:hover {
+    transform: scale(1.05);
+    background-color: #e6c200;
+}
+
+/* Animations */
+@keyframes rotateJar {
+    0% {
+        transform: perspective(1000px) rotateY(0deg);
+    }
+    100% {
+        transform: perspective(1000px) rotateY(360deg);
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* Mobile adjustments */
 @media (max-width: 768px) {
     /* added hamburger menu for header and footer by AQA */
@@ -289,6 +364,22 @@ button {
         transition: right 0.3s ease;
         z-index: 99;
     }
+
+    /* Start Page */
+    .tagline {
+        font-size: 1.8rem;
+    }
+
+    .jar-container {
+        width: 200px;
+        height: 200px;
+    }
+
+    .continue-button {
+        font-size: 1rem;
+        padding: 8px 25px;
+    }
+    /* End of Start Page */
 
     .main-menu.active {
         right: 0; /* Slide in when active */
