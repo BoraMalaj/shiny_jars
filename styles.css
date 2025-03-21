@@ -466,7 +466,7 @@ button {
         min-height: 200px;
     }
 
-    .accessory-section {
+    /* .accessory-section {
         background: #2a2a2a; /* Match drop-zone background */
         border: 1px solid rgba(255, 215, 0, 0.3); /* Match drop-zone border */
         border-radius: 10px; /* Match drop-zone border-radius */
@@ -474,8 +474,8 @@ button {
                     inset 0 2px 5px rgba(255, 215, 0, 0.1); /* Match drop-zone shadow */
         padding: 15px; /* Slightly more padding for a polished look */
         width: 200px; /* Match drop-zone width */
-        text-align: center;
-    }
+       /* text-align: center;
+    } */
 
     /* Ensure the accessory items inside look consistent */
     .accessory-items {
