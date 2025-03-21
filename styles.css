@@ -174,13 +174,13 @@ p {
     justify-content: center; /* changed by AQA from center to left */
 }
 
-/* .drop-zone {
+.drop-zone {
     position: relative;
     width: 250px;
     height: 250px;
-} */
+}
 
-.drop-zone {
+/* .drop-zone {
     position: relative;
     width: 250px;
     height: 250px;
@@ -189,7 +189,7 @@ p {
     background: #2a2a2a;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5), 
                 inset 0 2px 5px rgba(255, 215, 0, 0.1);
-}
+} */
 
 .base-image {
     width: 100%;
@@ -474,10 +474,10 @@ button {
         gap: 10px;
     }
 
-    /* .drop-zone {
+    .drop-zone {
         width: 200px;
         height: 200px;
-    } */
+    }
 
     .draggable {
         width: 60px;
@@ -517,7 +517,7 @@ button {
     .sub-section h3 { font-size: 0.9rem; }
 
     /* Reuse the fadeIn animation from the start page */
-    @keyframes fadeIn {
+    /* @keyframes fadeIn {
         0% {
             opacity: 0;
             transform: translateY(20px);
@@ -526,5 +526,5 @@ button {
             opacity: 1;
             transform: translateY(0);
         }
-    }
+    } */
 }
