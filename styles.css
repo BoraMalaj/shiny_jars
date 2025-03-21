@@ -467,12 +467,12 @@ button {
     }
 
     /* Ensure the accessory items inside look consistent */
-    .accessory-items {
+    /* .accessory-items {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
         gap: 10px;
-    }
+    } */
 
     .drop-zone {
         width: 200px;
