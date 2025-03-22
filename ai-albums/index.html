@@ -44,6 +44,7 @@
       overflow: hidden;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
     }
 
     .image-card:hover {
@@ -53,18 +54,62 @@
 
     .image-card img {
       width: 100%;
-      height: 200px; /* Fixed height for uniformity */
-      object-fit: cover; /* Ensures images fill the space nicely */
+      height: 200px;
+      object-fit: cover;
       border-bottom: 2px solid #444;
     }
 
-    /* Optional: Add a caption */
-    .image-card p {
+    /* Lightbox Styles */
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .lightbox.active {
+      display: flex;
+    }
+
+    .lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 10px;
+    }
+
+    .lightbox .close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 2rem;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .lightbox .nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2rem;
+      color: #fff;
+      cursor: pointer;
+      background-color: rgba(0, 0, 0, 0.5);
       padding: 10px;
-      text-align: center;
-      font-size: 1rem;
-      color: #b0b0b0;
-      margin: 0;
+      border-radius: 50%;
+    }
+
+    .lightbox .nav.prev {
+      left: 20px;
+    }
+
+    .lightbox .nav.next {
+      right: 20px;
     }
   </style>
 </head>
@@ -87,14 +132,61 @@
     <!-- Add more images as needed -->
   </div>
 
+  <!-- Lightbox -->
+  <div class="lightbox">
+    <span class="close">&times;</span>
+    <span class="nav prev">&#10094;</span>
+    <span class="nav next">&#10095;</span>
+    <img src="" alt="Lightbox Image">
+  </div>
+
   <script>
-    // Optional: Add JavaScript for interactivity
-    const imageCards = document.querySelectorAll('.image-card');
-    imageCards.forEach(card => {
-      card.addEventListener('click', () => {
-        const altText = card.querySelector('img').alt;
-        alert(`You clicked on ${altText}`);
+    // Lightbox functionality
+    const lightbox = document.querySelector('.lightbox');
+    const lightboxImg = lightbox.querySelector('img');
+    const closeBtn = lightbox.querySelector('.close');
+    const prevBtn = lightbox.querySelector('.prev');
+    const nextBtn = lightbox.querySelector('.next');
+    const images = document.querySelectorAll('.album img');
+    let currentIndex = 0;
+
+    // Open lightbox with clicked image
+    images.forEach((img, index) => {
+      img.addEventListener('click', () => {
+        currentIndex = index;
+        updateLightboxImage();
+        lightbox.classList.add('active');
       });
+    });
+
+    // Close lightbox
+    closeBtn.addEventListener('click', () => {
+      lightbox.classList.remove('active');
+    });
+
+    // Navigate to previous image
+    prevBtn.addEventListener('click', () => {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      updateLightboxImage();
+    });
+
+    // Navigate to next image
+    nextBtn.addEventListener('click', () => {
+      currentIndex = (currentIndex + 1) % images.length;
+      updateLightboxImage();
+    });
+
+    // Update lightbox image
+    function updateLightboxImage() {
+      lightboxImg.src = images[currentIndex].src;
+      lightboxImg.alt = images[currentIndex].alt;
+    }
+
+    // Close lightbox when clicking outside the image
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) {
+        lightbox.classList.remove('active');
+      }
     });
   </script>
 </body>
