@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shiny Jars</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        body {
+            background-color: #0D0D0D;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        header {
+            padding: 20px;
+            background: linear-gradient(90deg, #B8860B, #8B7500);
+            color: #fff;
+            font-size: 1.5em;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 50px;
+        }
+        header img {
+            height: 50px;
+        }
+        nav {
+            display: flex;
+            gap: 20px;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        nav a:hover {
+            color: #FFD700;
+        }
+        .hero {
+            padding: 50px;
+            background: rgba(184, 134, 11, 0.2);
+            border-radius: 10px;
+            margin: 20px auto;
+            width: 80%;
+            box-shadow: 0px 0px 20px rgba(184, 134, 11, 0.5);
+            animation: fadeIn 1.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #B8860B;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            background: #8B7500;
+        }
+        .products {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 30px;
+        }
+        .product {
+            background: #1E1E1E;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(184, 134, 11, 0.3);
+            width: 250px;
+            transition: transform 0.3s ease-in-out;
+        }
+        .product:hover {
+            transform: scale(1.05);
+        }
+        .product img {
+            width: 50%;
+            border-radius: 10px;
+        }
+        .interactive-jar {
+            margin: 50px auto;
+            width: 200px;
+            height: 200px;
+            position: relative;
+            perspective: 1000px;
+        }
+        .jar-container {
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            animation: rotateJar 10s linear infinite;
+        }
+        .jar-container img {
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform: translateZ(0);
+        }
+        @keyframes rotateJar {
+            from { transform: rotateY(0deg); }
+            to { transform: rotateY(360deg); }
+        }
+        footer {
+            padding: 20px;
+            background: #1E1E1E;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="logo.png" alt="Shiny Jars Logo">
+        <nav>
+            <a href="#shop">Shop</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+    <section class="hero">
+        <!-- <h2>Handpicked Jewelry</h2> -->
+        <h1>Shiny Jars</h1>
+        <h4>Perfect to have, Perfect to gift!</h4>
+        <!-- <p>Explore our custom-filled jars with necklaces, rings, earrings, and more!</p> -->
+        <a href="#shop" class="btn">Shop Now</a>
+    </section>
+    <section id="shop" class="products">
+        <div class="product">
+            <img src="ring4-3d.png" alt="Ring 1">
+            <!-- <h4>Elegant Golden Ring</h4> -->
+            <!-- <p>A beautiful ring.</p> -->
+        </div>
+        <!-- <div class="product">
+            <img src="bracelet1-3d.png" alt="Bracelet 1">
+            <h4>Elegant Golden Bracelet</h4>
+            
+        </div> -->
+        <div class="product">
+            <img src="necklace2-3d.png" alt="Necklace 1">
+            <!-- <h4>Elegant Golden Necklace</h4> -->
+            <!-- <p>A beautiful Golden Necklace.</p> -->
+        </div>
+        <div class="product">
+            <img src="necklace3-3d.png" alt="Necklace 2">
+            <!-- <h4>Elegant Silver Necklace</h4> -->
+            <!-- <p>A beautiful Silver Necklace.</p> -->
+        </div>
+        <!-- <div class="product">
+            <img src="earring2-3d.png" alt="Earring 1">
+            <h4>Elegant Earrings</h4>
+            
+        </div> -->
+        <!-- <div class="product">
+            <img src="jar1.png" alt="Jewelry Jar 1">
+            <h3>Golden Elegance</h3>
+            <p>A jar filled with stunning gold-themed jewelry.</p>
+        </div>
+        <div class="product">
+            <img src="jar2.png" alt="Jewelry Jar 2">
+            <h3>Silver Sparkle</h3>
+            <p>A jar with exquisite silver and diamond-like pieces.</p>
+        </div> -->
+    </section>
+    <section class="interactive-jar">
+        <div class="jar-container">
+            <img src="rotating_jar.png" alt="Rotating Jar">
+        </div>
+    </section>
+    <footer>
+        <p>Follow us on Instagram: @shiny_jar & TikTok: @shiny__jars</p>
+    </footer>
+</body>
+</html>
