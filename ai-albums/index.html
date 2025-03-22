@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My AI Images Album</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 {
+      color: #333;
+    }
+    .album {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .album img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .album img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <h1>My Awesome Image Album</h1>
+  <div class="album">
+    <!-- Add your images here -->
+    <img src="pyramid_of_giza/pyramid_of_giza_part1" alt="Part 1">
+    <img src="pyramid_of_giza/pyramid_of_giza_part2" alt="Part 2">
+    <img src="pyramid_of_giza/pyramid_of_giza_part3" alt="Part 3">
+    <!-- Add more images as needed -->
+  </div>
+
+  <script>
+    // Optional: Add JavaScript for interactivity
+    const images = document.querySelectorAll('.album img');
+    images.forEach(img => {
+      img.addEventListener('click', () => {
+        alert(`You clicked on ${img.alt}`);
+      });
+    });
+  </script>
+</body>
+</html>
