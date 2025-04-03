@@ -1,0 +1,234 @@
+{
+    "phrases": [
+      {
+        "latin": "Carpe Diem",
+        "translation": "Seize the day",
+        "media": "https://assets.mixkit.co/videos/preview/mixkit-sunset-time-lapse-1178-large.mp4",
+        "isMedia": true
+      },
+      {
+        "latin": "Veni Vidi Vici",
+        "translation": "I came, I saw, I conquered"
+      },
+      {
+        "latin": "Memento Mori",
+        "translation": "Remember you must die"
+      },
+      {
+        "latin": "Cogito Ergo Sum",
+        "translation": "I think therefore I am"
+      },
+      {
+        "latin": "Alea Iacta Est",
+        "translation": "The die has been cast"
+      },
+      {
+        "latin": "Per Aspera Ad Astra",
+        "translation": "Through hardships to the stars",
+        "media": "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=500",
+        "isMedia": true
+      },
+      {
+        "latin": "Acta Non Verba",
+        "translation": "Deeds, not words",
+        "media": "https://assets.mixkit.co/videos/preview/mixkit-hand-writing-a-document-1233-large.mp4",
+        "isMedia": true
+      },
+      {
+        "latin": "Ad Astra Per Aspera",
+        "translation": "To the stars through difficulties"
+      },
+      {
+        "latin": "Ad Hoc",
+        "translation": "For this purpose"
+      },
+      {
+        "latin": "Ad Infinitum",
+        "translation": "To infinity"
+      },
+      {
+        "latin": "Ad Nauseam",
+        "translation": "To the point of nausea"
+      },
+      {
+        "latin": "Alma Mater",
+        "translation": "Nourishing mother",
+        "media": "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=500",
+        "isMedia": true
+      },
+      {
+        "latin": "Amor Vincit Omnia",
+        "translation": "Love conquers all",
+        "media": "https://assets.mixkit.co/videos/preview/mixkit-two-hearts-of-fire-1232-large.mp4",
+        "isMedia": true
+      },
+      {
+        "latin": "Ars Longa, Vita Brevis",
+        "translation": "Art is long, life is short"
+      },
+      {
+        "latin": "Audi Alteram Partem",
+        "translation": "Hear the other side"
+      },
+      {
+        "latin": "Aurea Mediocritas",
+        "translation": "Golden mean"
+      },
+      {
+        "latin": "Auribus Teneo Lupum",
+        "translation": "I hold a wolf by the ears"
+      },
+      {
+        "latin": "Aut Viam Inveniam Aut Faciam",
+        "translation": "I will either find a way or make one",
+        "media": "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?w=500",
+        "isMedia": true
+      },
+      {
+        "latin": "Bona Fide",
+        "translation": "In good faith"
+      },
+      {
+        "latin": "Caveat Emptor",
+        "translation": "Let the buyer beware"
+      },
+      {
+        "latin": "Circa",
+        "translation": "Around, approximately"
+      },
+      {
+        "latin": "Corpus Christi",
+        "translation": "Body of Christ"
+      },
+      {
+        "latin": "De Facto",
+        "translation": "In fact"
+      },
+      {
+        "latin": "Deus Ex Machina",
+        "translation": "God from the machine",
+        "media": "https://assets.mixkit.co/videos/preview/mixkit-gears-turning-in-a-mechanism-1236-large.mp4",
+        "isMedia": true
+      },
+      {
+        "latin": "Dulce Et Decorum Est",
+        "translation": "It is sweet and proper"
+      },
+      {
+        "latin": "E Pluribus Unum",
+        "translation": "Out of many, one"
+      },
+      {
+        "latin": "Ex Libris",
+        "translation": "From the library of"
+      },
+      {
+        "latin": "Ex Nihilo",
+        "translation": "Out of nothing",
+        "media": "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=500",
+        "isMedia": true
+      },
+      {
+        "latin": "Festina Lente",
+        "translation": "Make haste slowly"
+      },
+      {
+        "latin": "Fiat Lux",
+        "translation": "Let there be light",
+        "media": "https://assets.mixkit.co/videos/preview/mixkit-light-particles-on-dark-background-1229-large.mp4",
+        "isMedia": true
+      },
+      {
+        "latin": "Habeas Corpus",
+        "translation": "You shall have the body"
+      },
+      {
+        "latin": "In Vino Veritas",
+        "translation": "In wine, truth"
+      },
+      {
+        "latin": "Ipso Facto",
+        "translation": "By the fact itself"
+      },
+      {
+        "latin": "Labor Omnia Vincit",
+        "translation": "Work conquers all"
+      },
+      {
+        "latin": "Lapsus Linguae",
+        "translation": "Slip of the tongue"
+      },
+      {
+        "latin": "Magna Cum Laude",
+        "translation": "With great praise",
+        "media": "https://images.unsplash.com/photo-1546521343-4eb2c01aa44b?w=500",
+        "isMedia": true
+      },
+      {
+        "latin": "Mea Culpa",
+        "translation": "My fault"
+      },
+      {
+        "latin": "Modus Operandi",
+        "translation": "Method of operating"
+      },
+      {
+        "latin": "Ora Et Labora",
+        "translation": "Pray and work"
+      },
+      {
+        "latin": "Pax Vobiscum",
+        "translation": "Peace be with you",
+        "media": "https://assets.mixkit.co/videos/preview/mixkit-white-dove-flying-in-a-blue-sky-1237-large.mp4",
+        "isMedia": true
+      },
+      {
+        "latin": "Prima Facie",
+        "translation": "At first sight"
+      },
+      {
+        "latin": "Pro Bono",
+        "translation": "For the good"
+      },
+      {
+        "latin": "Quid Pro Quo",
+        "translation": "Something for something"
+      },
+      {
+        "latin": "Requiescat In Pace",
+        "translation": "Rest in peace"
+      },
+      {
+        "latin": "Semper Fidelis",
+        "translation": "Always faithful"
+      },
+      {
+        "latin": "Status Quo",
+        "translation": "The existing state",
+        "media": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=500",
+        "isMedia": true
+      },
+      {
+        "latin": "Sui Generis",
+        "translation": "Of its own kind"
+      },
+      {
+        "latin": "Tabula Rasa",
+        "translation": "Blank slate"
+      },
+      {
+        "latin": "Tempus Fugit",
+        "translation": "Time flies"
+      },
+      {
+        "latin": "Veni, Vidi, Vici",
+        "translation": "I came, I saw, I conquered"
+      },
+      {
+        "latin": "Vox Populi",
+        "translation": "Voice of the people",
+        "media": "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=500",
+        "isMedia": true
+      }
+    ]
+  }
