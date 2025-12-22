@@ -118,8 +118,10 @@ p {
 
 /* disable haptic touch interface */
 .draggable {
-    -webkit-touch-callout: none; /* Prevents haptic touch/long-press on iOS */
-    user-select: none; /* Prevents text selection during drag */
+    -webkit-touch-callout: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    touch-action: none;
 }
 
 .container {
@@ -170,26 +172,26 @@ p {
 .accessory-items {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px; /* changed by AQA from 10px to 11px */
-    justify-content: center; /* changed by AQA from center to left */
+    gap: 10px;
+    justify-content: center;
 }
 
+/* Drop Zones */
 .drop-zone {
     position: relative;
     width: 250px;
     height: 250px;
-}
 
-/* .drop-zone {
-    position: relative;
-    width: 250px;
-    height: 250px;
+    /* nice frame (your style) */
     border: 1px solid rgba(255, 215, 0, 0.3);
     border-radius: 10px;
     background: #2a2a2a;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5), 
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5),
                 inset 0 2px 5px rgba(255, 215, 0, 0.1);
-} */
+
+    /* IMPORTANT: creates correct coordinate system for dropped jewelry */
+    overflow: hidden;
+}
 
 .base-image {
     width: 100%;
@@ -201,27 +203,30 @@ p {
     filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.7));
 }
 
+/* ✅ FIX: zones must exist, but should NOT show (invisible) */
 .finger-zone, .wrist-zone, .neck-zone, .ear-zone {
     position: absolute;
     z-index: 20;
-    border: 2px dashed #ffd700;
-    background: rgba(255, 215, 0, 0.3);
+
+    /* invisible but still clickable/droppable */
+    border: none;
+    background: transparent;
 }
 
 /* Hand zones */
 .finger-zone { width: 25px; height: 40px; }
-[data-finger="thumb"] { top: 150px; left: 30px; }
-[data-finger="index"] { top: 100px; left: 60px; }
-[data-finger="middle"] { top: 80px; left: 100px; }
-[data-finger="ring"] { top: 90px; left: 130px; }
-[data-finger="pinky"] { top: 110px; left: 160px; }
-.wrist-zone { width: 60px; height: 30px; top: 200px; left: 110px; } /* left parameter changed by AQA from 90 originally */
+[data-finger="thumb"]  { top: 150px; left: 30px; }
+[data-finger="index"]  { top: 100px; left: 60px; }
+[data-finger="middle"] { top: 80px;  left: 100px; }
+[data-finger="ring"]   { top: 90px;  left: 130px; }
+[data-finger="pinky"]  { top: 110px; left: 160px; }
+.wrist-zone { width: 60px; height: 30px; top: 200px; left: 110px; }
 
 /* Neck zone */
-.neck-zone { width: 120px; height: 80px; top: 210px; left: 77px; } /* left parameter changed by AQA from 55 originally and top parameter from 150 originally */
+.neck-zone { width: 120px; height: 80px; top: 210px; left: 77px; }
 
 /* Ear zone */
-.ear-zone { width: 25px; height: 25px; top: 125px; left: 170px; } /* left parameter changed by AQA from 90 originally and top parameter from 90 originally */
+.ear-zone { width: 25px; height: 25px; top: 125px; left: 170px; }
 
 /* Buttons */
 .button-container {
@@ -231,6 +236,7 @@ p {
     margin-top: 10px;
 }
 
+/* Draggables base */
 .draggable {
     width: 80px;
     height: auto;
@@ -242,10 +248,22 @@ p {
 }
 
 .draggable.dragging {
-    opacity: 0.7; /* It was 0.5 */
-    transition: none; /* Disable transitions while dragging to prevent lag */
+    opacity: 0.7;
+    transition: none;
 }
 
+/* ✅ FIX: when item is placed on body, make it behave like a sticker */
+.finger-zone .draggable,
+.wrist-zone .draggable,
+.neck-zone .draggable,
+.ear-zone .draggable {
+    position: absolute;
+    z-index: 30;
+    transform-origin: center center;
+    pointer-events: auto;
+}
+
+/* Sizes while worn */
 .draggable.on-finger {
     width: 40px;
     transform: translate(-50%, -50%) scale(0.8) rotate(15deg);
@@ -286,7 +304,7 @@ button {
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); /* Dark gradient background */
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
     color: #e0e0e0;
     text-align: center;
     padding: 20px;
@@ -296,7 +314,7 @@ button {
 
 .tagline {
     font-size: 2.5rem;
-    color: #ffd700; /* Gold color */
+    color: #ffd700;
     text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
     margin-bottom: 30px;
     animation: fadeIn 1s ease-in-out;
@@ -312,8 +330,8 @@ button {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    animation: rotateJar 4s linear infinite; /* 4-second rotation */
-    filter: drop-shadow(0 5px 15px rgba(255, 215, 0, 0.3)); /* Gold glow */
+    animation: rotateJar 4s linear infinite;
+    filter: drop-shadow(0 5px 15px rgba(255, 215, 0, 0.3));
 }
 
 .continue-button {
@@ -325,7 +343,7 @@ button {
     font-size: 1.2rem;
     border-radius: 5px;
     transition: transform 0.3s ease, background-color 0.3s ease;
-    animation: fadeIn 1s ease-in-out 1s; /* Delayed fade-in */
+    animation: fadeIn 1s ease-in-out 1s;
 }
 
 .continue-button:hover {
@@ -335,36 +353,23 @@ button {
 
 /* Animations */
 @keyframes rotateJar {
-    0% {
-        transform: perspective(1000px) rotateY(0deg);
-    }
-    100% {
-        transform: perspective(1000px) rotateY(360deg);
-    }
+    0% { transform: perspective(1000px) rotateY(0deg); }
+    100% { transform: perspective(1000px) rotateY(360deg); }
 }
 
 @keyframes fadeIn {
-    0% {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
 }
 
 /* Mobile adjustments */
 @media (max-width: 768px) {
-    /* added hamburger menu for header and footer by AQA */
-    .hamburger {
-        display: block; /* Show hamburger on mobile */
-    }
+    .hamburger { display: block; }
 
     .main-menu {
         position: fixed;
         top: 0;
-        right: -100%; /* Hidden off-screen by default */
+        right: -100%;
         height: 100vh;
         width: 250px;
         background-color: #2a2a2a;
@@ -376,25 +381,11 @@ button {
         z-index: 99;
     }
 
-    /* Start Page */
-    .tagline {
-        font-size: 1.25rem;
-    }
+    .tagline { font-size: 1.25rem; }
+    .jar-container { width: 240px; height: 240px; }
+    .continue-button { font-size: 1rem; padding: 8px 25px; }
 
-    .jar-container {
-        width: 240px;
-        height: 240px;
-    }
-
-    .continue-button {
-        font-size: 1rem;
-        padding: 8px 25px;
-    }
-    /* End of Start Page */
-
-    .main-menu.active {
-        right: 0; /* Slide in when active */
-    }
+    .main-menu.active { right: 0; }
 
     .main-menu ul {
         flex-direction: column;
@@ -407,53 +398,14 @@ button {
         color: #e0e0e0;
     }
 
-    /* Hamburger animation when active */
-    .hamburger.active .bar:nth-child(2) {
-        opacity: 0;
-    }
+    .hamburger.active .bar:nth-child(2) { opacity: 0; }
+    .hamburger.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .hamburger.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
-    .hamburger.active .bar:nth-child(1) {
-        transform: translateY(8px) rotate(45deg);
-    }
-
-    .hamburger.active .bar:nth-child(3) {
-        transform: translateY(-8px) rotate(-45deg);
-    }
-    /* end of hamburger menu */
-
-    /* 3D effect and hover animation for desktop only */
-    .drop-zone {
-        /* Add a subtle border and shadow for 3D effect */
-        border: 1px solid rgba(255, 215, 0, 0.3); /* Gold border with transparency */
-        border-radius: 10px;
-        background: #2a2a2a; /* Match your dark theme */
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5), 
-                    inset 0 2px 5px rgba(255, 215, 0, 0.1); /* Outer shadow and inner glow */
-        transform: perspective(1000px) rotateX(0deg) rotateY(0deg); /* 3D perspective */
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .drop-zone:hover {
-        /* Subtle lift and tilt on hover */
-        transform: perspective(1000px) rotateX(2deg) rotateY(-2deg) translateZ(10px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7), 
-                    inset 0 2px 5px rgba(255, 215, 0, 0.2);
-    }
-
-    /* Ensure the base image inside the container also looks 3D */
-    .drop-zone .base-image {
-        filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.7));
-        transition: transform 0.3s ease;
-    }
-
-    .drop-zone:hover .base-image {
-        transform: scale(1.02); /* Slight zoom on hover */
-    }
-    
     .section-pair {
         flex-direction: column;
         align-items: center;
-        gap: 10px; /* Reduced gap for mobile */
+        gap: 10px;
         margin-bottom: 30px;
     }
 
@@ -462,69 +414,33 @@ button {
         padding: 10px;
     }
 
-    .accessory-section {
-        min-height: 200px;
-    }
-
-    /* Ensure the accessory items inside look consistent */
-    /* .accessory-items {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 10px;
-    } */
+    .accessory-section { min-height: 200px; }
 
     .drop-zone {
         width: 200px;
         height: 200px;
     }
 
-    .draggable {
-        width: 60px;
-        /* -webkit-user-drag: none; */ /* Disable iOS drag preview */
-    }
+    .draggable { width: 60px; }
 
-    .draggable.on-finger {
-        width: 30px;
-    }
-
-    .draggable.on-wrist {
-        width: 55px;
-    }
-
-    .draggable.on-neck {
-        width: 110px;
-    }
-
-    .draggable.on-ear {
-        width: 25px; /* increased by AQA from 20 to 25 */
-    }
+    .draggable.on-finger { width: 30px; }
+    .draggable.on-wrist  { width: 55px; }
+    .draggable.on-neck   { width: 110px; }
+    .draggable.on-ear    { width: 25px; }
 
     .finger-zone { width: 20px; height: 30px; }
-    [data-finger="thumb"] { top: 120px; left: 25px; }
-    [data-finger="index"] { top: 80px; left: 50px; }
-    [data-finger="middle"] { top: 60px; left: 80px; }
-    [data-finger="ring"] { top: 70px; left: 105px; }
-    [data-finger="pinky"] { top: 90px; left: 130px; }
-    .wrist-zone { width: 50px; height: 25px; top: 160px; left: 80px; } /* left parameter changed by AQA from 70 originally and top parameter from 150 originally */
+    [data-finger="thumb"]  { top: 120px; left: 25px; }
+    [data-finger="index"]  { top: 80px;  left: 50px; }
+    [data-finger="middle"] { top: 60px;  left: 80px; }
+    [data-finger="ring"]   { top: 70px;  left: 105px; }
+    [data-finger="pinky"]  { top: 90px;  left: 130px; }
+    .wrist-zone { width: 50px; height: 25px; top: 160px; left: 80px; }
 
-    .neck-zone { width: 100px; height: 60px; top: 165px; left: 55px; } /* left parameter changed by AQA from 45 originally and top parameter from 150 originally */
-    .ear-zone { width: 20px; height: 20px; top: 100px; left: 125px; } /* left parameter changed by AQA from 70 originally and top parameter from 70 originally */
+    .neck-zone { width: 100px; height: 60px; top: 165px; left: 55px; }
+    .ear-zone  { width: 20px;  height: 20px; top: 100px; left: 125px; }
 
     h1 { font-size: 1.5rem; }
-    p { font-size: 0.9rem; }
+    p  { font-size: 0.9rem; }
     .accessory-section h2 { font-size: 1rem; }
     .sub-section h3 { font-size: 0.9rem; }
-
-    /* Reuse the fadeIn animation from the start page */
-    /* @keyframes fadeIn {
-        0% {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        100% {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    } */
 }
