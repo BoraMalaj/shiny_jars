@@ -7,7 +7,11 @@ body {
   padding: 10px;
 }
 
-h1 { color: #ffd700; font-size: 2rem; }
+h1 {
+  color: #ffd700;
+  font-size: 2rem;
+}
+
 p { font-size: 1rem; }
 
 /* HEADER */
@@ -48,6 +52,7 @@ p { font-size: 1rem; }
 }
 
 .main-menu { display: flex; }
+
 .main-menu ul {
   list-style: none;
   margin: 0;
@@ -55,12 +60,14 @@ p { font-size: 1rem; }
   display: flex;
   gap: 20px;
 }
+
 .main-menu a {
   color: #e0e0e0;
   text-decoration: none;
   font-size: 1rem;
   transition: color 0.3s ease;
 }
+
 .main-menu a:hover { color: #ffd700; }
 
 /* FOOTER */
@@ -87,7 +94,7 @@ p { font-size: 1rem; }
 }
 .social-icon:hover { transform: scale(1.1); }
 
-/* MAIN LAYOUT */
+/* GAME LAYOUT */
 .container {
   display: flex;
   flex-direction: column;
@@ -124,6 +131,7 @@ p { font-size: 1rem; }
 }
 
 .sub-section { margin-bottom: 10px; }
+
 .sub-section h3 {
   color: #e0e0e0;
   font-size: 1rem;
@@ -135,21 +143,21 @@ p { font-size: 1rem; }
   flex-wrap: wrap;
   gap: 11px;
   justify-content: center;
+  align-items: center;
 }
 
-/* DROP ZONE BOX */
+/* DROP ZONES */
 .drop-zone {
   position: relative;
   width: 250px;
   height: 250px;
+
   border: 1px solid rgba(255, 215, 0, 0.3);
   border-radius: 10px;
   background: #2a2a2a;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5),
-              inset 0 2px 5px rgba(255, 215, 0, 0.1);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.5), inset 0 2px 5px rgba(255,215,0,0.1);
 }
 
-/* IMPORTANT: base image should NOT block dropping */
 .base-image {
   width: 100%;
   height: 100%;
@@ -158,65 +166,41 @@ p { font-size: 1rem; }
   position: relative;
   z-index: 5;
   filter: drop-shadow(0 5px 10px rgba(0,0,0,0.7));
-  pointer-events: none; /* ✅ FIX: allows zones to receive drop */
 }
 
-/* DROP ZONES */
+/* IMPORTANT: these zones must sit ABOVE the image and accept drop */
 .finger-zone, .wrist-zone, .neck-zone, .ear-zone {
   position: absolute;
   z-index: 20;
   border: 2px dashed #ffd700;
-  background: rgba(255, 215, 0, 0.25);
+  background: rgba(255, 215, 0, 0.20);
+  pointer-events: all;
 }
 
-/* Hand zones (fine-tuned) */
-.finger-zone { width: 26px; height: 42px; }
+/* Hand zones (tune these positions anytime) */
+.finger-zone { width: 26px; height: 38px; }
 [data-finger="thumb"]  { top: 145px; left: 35px; }
 [data-finger="index"]  { top: 95px;  left: 70px; }
 [data-finger="middle"] { top: 78px;  left: 105px; }
 [data-finger="ring"]   { top: 90px;  left: 135px; }
-[data-finger="pinky"]  { top: 110px; left: 165px; }
+[data-finger="pinky"]  { top: 110px; left: 162px; }
 
-.wrist-zone { width: 70px; height: 32px; top: 200px; left: 105px; }
+.wrist-zone { width: 64px; height: 30px; top: 198px; left: 112px; }
 
-/* Neck zone (fine-tuned) */
-.neck-zone { width: 140px; height: 80px; top: 165px; left: 55px; }
+/* Neck zone */
+.neck-zone { width: 140px; height: 86px; top: 155px; left: 55px; }
 
-/* Ear zone (fine-tuned for your image) */
-.ear-zone { width: 26px; height: 26px; top: 118px; left: 168px; }
+/* Ear zone */
+.ear-zone { width: 30px; height: 30px; top: 115px; left: 165px; }
 
-/* DRAGGABLE ITEMS */
-.draggable {
-  width: 80px;
-  height: auto;
-  margin: 5px;
-  cursor: grab;
-  filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.45));
-  transition: transform 0.15s ease;
-  -webkit-touch-callout: none;
-  user-select: none;
-  touch-action: none;
-  z-index: 30;
-}
-
-.draggable:active { cursor: grabbing; }
-.draggable.dragging { opacity: 0.85; }
-
-/* Fit presets (final look handled in JS too) */
-.draggable.on-finger { width: 42px; }
-.draggable.on-wrist  { width: 70px; }
-.draggable.on-neck   { width: 140px; }
-.draggable.on-ear    { width: 40px; }
-
-/* Buttons inside hand */
+/* BUTTONS */
 .button-container {
-  position: absolute;
-  left: 50%;
-  bottom: 8px;
-  transform: translateX(-50%);
   display: flex;
+  justify-content: center;
   gap: 10px;
-  z-index: 50; /* ✅ above everything */
+  margin-top: 10px;
+  position: relative;
+  z-index: 30;
 }
 
 button {
@@ -228,64 +212,31 @@ button {
   font-size: 0.9rem;
 }
 
-/* START PAGE styles kept if you use same CSS file */
-.start-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
-  color: #e0e0e0;
-  text-align: center;
-  padding: 20px;
-  position: relative;
-  overflow: hidden;
+/* DRAGGABLE */
+.draggable {
+  width: 80px;
+  height: auto;
+  margin: 5px;
+  cursor: grab;
+  -webkit-touch-callout: none;
+  user-select: none;
+  filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
+  transition: transform 0.15s ease;
+  z-index: 10;
 }
 
-.tagline {
-  font-size: 2.5rem;
-  color: #ffd700;
-  text-shadow: 0 2px 5px rgba(0,0,0,0.5);
-  margin-bottom: 30px;
-  animation: fadeIn 1s ease-in-out;
+.draggable:active { cursor: grabbing; }
+
+.draggable.dragging {
+  opacity: 0.8;
+  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
 }
 
-.jar-container { width: 300px; height: 300px; margin-bottom: 30px; }
-
-.rotating-jar {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  animation: rotateJar 4s linear infinite;
-  filter: drop-shadow(0 5px 15px rgba(255, 215, 0, 0.3));
-}
-
-.continue-button {
-  display: inline-block;
-  padding: 10px 30px;
-  background-color: #ffd700;
-  color: #1a1a1a;
-  text-decoration: none;
-  font-size: 1.2rem;
-  border-radius: 5px;
-  transition: transform 0.3s ease, background-color 0.3s ease;
-  animation: fadeIn 1s ease-in-out 1s;
-}
-
-.continue-button:hover {
-  transform: scale(1.05);
-  background-color: #e6c200;
-}
-
-@keyframes rotateJar {
-  0% { transform: perspective(1000px) rotateY(0deg); }
-  100% { transform: perspective(1000px) rotateY(360deg); }
-}
-
-@keyframes fadeIn {
-  0% { opacity: 0; transform: translateY(20px); }
-  100% { opacity: 1; transform: translateY(0); }
+/* When placed on body parts: JS will apply exact transform */
+.draggable.placed {
+  position: absolute;
+  z-index: 25;
+  margin: 0;
 }
 
 /* MOBILE */
@@ -315,10 +266,7 @@ button {
     text-align: center;
   }
 
-  .main-menu a {
-    font-size: 1.2rem;
-    color: #e0e0e0;
-  }
+  .main-menu a { font-size: 1.2rem; }
 
   .hamburger.active .bar:nth-child(2) { opacity: 0; }
   .hamburger.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
@@ -341,23 +289,19 @@ button {
   .drop-zone { width: 200px; height: 200px; }
 
   .draggable { width: 60px; }
-  .draggable.on-finger { width: 34px; }
-  .draggable.on-wrist  { width: 62px; }
-  .draggable.on-neck   { width: 120px; }
-  .draggable.on-ear    { width: 34px; }
-
-  /* mobile zone positions */
-  .finger-zone { width: 20px; height: 30px; }
-  [data-finger="thumb"]  { top: 120px; left: 25px; }
-  [data-finger="index"]  { top: 78px;  left: 55px; }
-  [data-finger="middle"] { top: 62px;  left: 85px; }
-  [data-finger="ring"]   { top: 72px;  left: 110px; }
-  [data-finger="pinky"]  { top: 92px;  left: 135px; }
-
-  .wrist-zone { width: 55px; height: 25px; top: 160px; left: 78px; }
-  .neck-zone  { width: 115px; height: 62px; top: 132px; left: 42px; }
-  .ear-zone   { width: 20px;  height: 20px; top: 96px; left: 130px; }
 
   h1 { font-size: 1.5rem; }
   p { font-size: 0.9rem; }
+
+  /* Re-tune zones for smaller box */
+  .finger-zone { width: 20px; height: 30px; }
+  [data-finger="thumb"]  { top: 118px; left: 28px; }
+  [data-finger="index"]  { top: 75px;  left: 55px; }
+  [data-finger="middle"] { top: 60px;  left: 80px; }
+  [data-finger="ring"]   { top: 70px;  left: 104px; }
+  [data-finger="pinky"]  { top: 88px;  left: 130px; }
+
+  .wrist-zone { width: 54px; height: 25px; top: 158px; left: 82px; }
+  .neck-zone  { width: 120px; height: 70px; top: 128px; left: 40px; }
+  .ear-zone   { width: 22px; height: 22px; top: 90px; left: 130px; }
 }

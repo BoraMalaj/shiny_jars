@@ -3,24 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Shiny Jar jewelry game." />
+  <meta name="description" content="Shiny Jar Game - drag jewelry to style her up!" />
   <meta name="keywords" content="jewelry, shiny jars, game, fashion, accessories" />
   <link rel="icon" type="image/png" href="favicon-32x32.png" />
   <title>Shiny Jar Game</title>
 
   <link rel="stylesheet" href="styles.css" />
 
-  <!-- Mobile drag & drop polyfill -->
+  <!-- Mobile drag & drop polyfill (keep!) -->
   <script src="https://cdn.jsdelivr.net/npm/mobile-drag-drop@3.0.0-rc.0/index.min.js"></script>
   <script>
     window.MobileDragDrop = window.MobileDragDrop || {};
     MobileDragDrop.polyfill({ holdToDrag: 200 });
   </script>
-
-  <link rel="icon" type="image/png" href="favicon.png" />
 </head>
-<body>
 
+<body>
   <header class="site-header">
     <div class="header-container">
       <div class="logo">
@@ -48,7 +46,6 @@
   <p>Drag items to style her up, return to the jar to swap!</p>
 
   <div class="container">
-
     <!-- Hand Section Pair -->
     <div class="section-pair">
       <div class="accessory-section hand-accessories">
@@ -56,36 +53,39 @@
 
         <div class="sub-section">
           <h3>Rings</h3>
-          <div class="accessory-items" id="rings">
-            <img src="ring1-3d.png" class="draggable" draggable="true" alt="Ring 1">
-            <img src="ring3-3d.png" class="draggable" draggable="true" alt="Ring 3">
-            <img src="ring4-3d.png" class="draggable" draggable="true" alt="Ring 4">
+          <div class="accessory-items return-zone" id="rings">
+            <!-- Optional fine-tune per item: data-ox / data-oy (px) + data-s (scale) + data-r (deg) -->
+            <img src="ring1-3d.png" class="draggable" draggable="true" alt="Ring 1" data-s="0.85" data-r="12">
+            <img src="ring3-3d.png" class="draggable" draggable="true" alt="Ring 3" data-s="0.85" data-r="12">
+            <img src="ring4-3d.png" class="draggable" draggable="true" alt="Ring 4" data-s="0.85" data-r="12">
           </div>
         </div>
 
         <div class="sub-section">
           <h3>Bracelets</h3>
-          <div class="accessory-items" id="bracelets">
-            <img src="bracelet4-3d.png" class="draggable" draggable="true" alt="Bracelet 4">
-            <img src="bracelet5-3d.png" class="draggable" draggable="true" alt="Bracelet 5">
-            <img src="bracelet6-3d.png" class="draggable" draggable="true" alt="Bracelet 6">
+          <div class="accessory-items return-zone" id="bracelets">
+            <img src="bracelet4-3d.png" class="draggable" draggable="true" alt="Bracelet 4" data-s="0.95" data-r="0">
+            <img src="bracelet5-3d.png" class="draggable" draggable="true" alt="Bracelet 5" data-s="0.95" data-r="0">
+            <img src="bracelet6-3d.png" class="draggable" draggable="true" alt="Bracelet 6" data-s="0.95" data-r="0">
           </div>
         </div>
       </div>
 
-      <div class="drop-zone hand-container" id="hand-drop">
+      <div class="drop-zone hand-container">
         <img src="hand-ai.png" class="base-image" id="hand" alt="Hand">
 
-        <div class="finger-zone" data-finger="thumb"></div>
-        <div class="finger-zone" data-finger="index"></div>
-        <div class="finger-zone" data-finger="middle"></div>
-        <div class="finger-zone" data-finger="ring"></div>
-        <div class="finger-zone" data-finger="pinky"></div>
-        <div class="wrist-zone" data-zone="wrist"></div>
+        <!-- Each zone can control placement: data-x/data-y in % inside zone, and default scale/rotate -->
+        <div class="finger-zone drop-target" data-finger="thumb"  data-x="50" data-y="55" data-scale="0.75" data-rot="12"></div>
+        <div class="finger-zone drop-target" data-finger="index"  data-x="52" data-y="58" data-scale="0.75" data-rot="12"></div>
+        <div class="finger-zone drop-target" data-finger="middle" data-x="52" data-y="58" data-scale="0.75" data-rot="12"></div>
+        <div class="finger-zone drop-target" data-finger="ring"   data-x="52" data-y="58" data-scale="0.75" data-rot="12"></div>
+        <div class="finger-zone drop-target" data-finger="pinky"  data-x="50" data-y="58" data-scale="0.75" data-rot="12"></div>
+
+        <div class="wrist-zone drop-target" data-zone="wrist" data-x="50" data-y="55" data-scale="0.95" data-rot="0"></div>
 
         <div class="button-container">
-          <button id="rotate-left">Rotate Left</button>
-          <button id="rotate-right">Rotate Right</button>
+          <button id="rotate-left" type="button">Rotate Left</button>
+          <button id="rotate-right" type="button">Rotate Right</button>
         </div>
       </div>
     </div>
@@ -94,16 +94,17 @@
     <div class="section-pair">
       <div class="accessory-section neck-accessories">
         <h2>Neck Accessories</h2>
-        <div class="accessory-items" id="neck-accessories">
-          <img src="necklace2-3d.png" class="draggable" draggable="true" alt="Necklace 2">
-          <img src="necklace3-3d.png" class="draggable" draggable="true" alt="Necklace 3">
-          <img src="necklace4-3d.png" class="draggable" draggable="true" alt="Necklace 4">
+        <div class="accessory-items return-zone" id="neck-accessories">
+          <img src="necklace2-3d.png" class="draggable" draggable="true" alt="Necklace 2" data-s="0.95" data-r="0">
+          <img src="necklace3-3d.png" class="draggable" draggable="true" alt="Necklace 3" data-s="0.95" data-r="0">
+          <img src="necklace4-3d.png" class="draggable" draggable="true" alt="Necklace 4" data-s="0.95" data-r="0">
         </div>
       </div>
 
-      <div class="drop-zone neck-container" id="neck-drop">
+      <div class="drop-zone neck-container">
         <img src="neck-ai.png" class="base-image" id="neck" alt="Neck">
-        <div class="neck-zone" data-zone="neck"></div>
+        <!-- Neck placement: drop a bit lower -->
+        <div class="neck-zone drop-target" data-zone="neck" data-x="50" data-y="62" data-scale="0.92" data-rot="0"></div>
       </div>
     </div>
 
@@ -111,19 +112,20 @@
     <div class="section-pair">
       <div class="accessory-section earrings-area">
         <h2>Earrings Area</h2>
-        <div class="accessory-items" id="earrings-area">
-          <img src="earring3-3d.png" class="draggable" draggable="true" alt="Earring 3">
-          <img src="earring4-3d.png" class="draggable" draggable="true" alt="Earring 4">
-          <img src="earring6-3d.png" class="draggable" draggable="true" alt="Earring 6">
+        <div class="accessory-items return-zone" id="earrings-area">
+          <!-- Earrings usually need more tuning: we set a smaller default + slight downward offset -->
+          <img src="earring3-3d.png" class="draggable" draggable="true" alt="Earring 3" data-s="0.70" data-r="0" data-oy="6">
+          <img src="earring4-3d.png" class="draggable" draggable="true" alt="Earring 4" data-s="0.70" data-r="0" data-oy="6">
+          <img src="earring6-3d.png" class="draggable" draggable="true" alt="Earring 6" data-s="0.70" data-r="0" data-oy="6">
         </div>
       </div>
 
-      <div class="drop-zone ear-container" id="ear-drop">
+      <div class="drop-zone ear-container">
         <img src="ear-ai.png" class="base-image" id="ear" alt="Left Ear">
-        <div class="ear-zone" data-zone="left-ear"></div>
+        <!-- Ear placement: slightly forward (right) and slightly down -->
+        <div class="ear-zone drop-target" data-zone="left-ear" data-x="56" data-y="54" data-scale="0.70" data-rot="0"></div>
       </div>
     </div>
-
   </div>
 
   <p>Screenshot and share with #ShinyJarFun!</p>
