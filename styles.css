@@ -7,17 +7,23 @@ body {
   padding: 10px;
 }
 
-h1 { color: #ffd700; font-size: 2rem; }
-p { font-size: 1rem; }
+h1 {
+  color: #ffd700;
+  font-size: 2rem;
+}
 
-/* Header */
+p {
+  font-size: 1rem;
+}
+
+/* header */
 .site-header {
   background-color: #2a2a2a;
   padding: 10px 20px;
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 .header-container {
@@ -28,7 +34,10 @@ p { font-size: 1rem; }
   margin: 0 auto;
 }
 
-.logo-image { height: 50px; width: auto; }
+.logo-image {
+  height: 50px;
+  width: auto;
+}
 
 .hamburger {
   display: none;
@@ -47,7 +56,10 @@ p { font-size: 1rem; }
   transition: all 0.3s ease;
 }
 
-.main-menu { display: flex; }
+.main-menu {
+  display: flex;
+}
+
 .main-menu ul {
   list-style: none;
   margin: 0;
@@ -55,21 +67,29 @@ p { font-size: 1rem; }
   display: flex;
   gap: 20px;
 }
+
 .main-menu a {
   color: #e0e0e0;
   text-decoration: none;
   font-size: 1rem;
+  transition: color 0.3s ease;
 }
-.main-menu a:hover { color: #ffd700; }
 
-/* Footer */
+.main-menu a:hover {
+  color: #ffd700;
+}
+
+/* footer */
 .site-footer {
   background-color: #2a2a2a;
   padding: 20px;
   text-align: center;
   color: #e0e0e0;
 }
-.footer-content p { margin: 5px 0; }
+
+.footer-content p {
+  margin: 5px 0;
+}
 
 .social-links {
   display: flex;
@@ -77,14 +97,25 @@ p { font-size: 1rem; }
   gap: 15px;
   margin-bottom: 10px;
 }
+
 .social-icon {
   width: 30px;
   height: 30px;
   transition: transform 0.3s ease;
 }
-.social-icon:hover { transform: scale(1.1); }
 
-/* Layout */
+.social-icon:hover {
+  transform: scale(1.1);
+}
+
+/* draggable behavior */
+.draggable {
+  -webkit-touch-callout: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* layout */
 .container {
   display: flex;
   flex-direction: column;
@@ -99,7 +130,10 @@ p { font-size: 1rem; }
   gap: 20px;
 }
 
-.accessory-section, .drop-zone { width: 45%; padding: 20px; }
+.accessory-section, .drop-zone {
+  width: 45%;
+  padding: 20px;
+}
 
 .accessory-section {
   border: 2px dashed #444;
@@ -111,127 +145,122 @@ p { font-size: 1rem; }
   min-height: 400px;
 }
 
-.accessory-section h2 { color: #ffd700; font-size: 1.2rem; margin: 0 0 10px; }
+.accessory-section h2 {
+  color: #ffd700;
+  font-size: 1.2rem;
+  margin: 0 0 10px;
+}
+
 .sub-section { margin-bottom: 10px; }
-.sub-section h3 { color: #e0e0e0; font-size: 1rem; margin: 5px 0; }
+
+.sub-section h3 {
+  color: #e0e0e0;
+  font-size: 1rem;
+  margin: 5px 0;
+}
 
 .accessory-items {
   display: flex;
   flex-wrap: wrap;
-  gap: 11px;
+  gap: 10px;
   justify-content: center;
-  align-items: center;
 }
 
-/* Drop boxes */
+/* drop zones */
 .drop-zone {
   position: relative;
   width: 250px;
   height: 250px;
-  border: 1px solid rgba(255,215,0,0.3);
+
+  border: 1px solid rgba(255, 215, 0, 0.3);
   border-radius: 10px;
   background: #2a2a2a;
   box-shadow: 0 5px 15px rgba(0,0,0,0.5),
               inset 0 2px 5px rgba(255,215,0,0.1);
-  margin: 0 auto;
+
+  overflow: hidden;
 }
 
+/* ✅ stage wrapper (rotate only stage, not buttons) */
 .stage {
-  position: absolute;
-  inset: 0;
-  transform-origin: 50% 65%;
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
-/* base image */
 .base-image {
   width: 100%;
   height: 100%;
   object-fit: contain;
   position: relative;
   z-index: 5;
-  filter: drop-shadow(0 5px 10px rgba(0,0,0,0.7));
+  filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.7));
 }
 
-/* Snap targets (visible yellow dashed) */
+/* zones invisible but droppable */
 .finger-zone, .wrist-zone, .neck-zone, .ear-zone {
   position: absolute;
   z-index: 20;
-  border: 2px dashed #ffd700;
-  background: rgba(255,215,0,0.18);
-  box-sizing: border-box;
+  background: transparent;
+  border: none;
+  pointer-events: auto; /* important so drop works */
 }
 
-/* Hand: tuned to match your screenshot look */
-.finger-zone { width: 28px; height: 40px; }
-.finger-zone[data-target="thumb"]  { top: 142px; left: 44px; }
-.finger-zone[data-target="index"]  { top: 95px;  left: 92px; }
-.finger-zone[data-target="middle"] { top: 78px;  left: 122px; }
-.finger-zone[data-target="ring"]   { top: 86px;  left: 150px; }
-.finger-zone[data-target="pinky"]  { top: 104px; left: 175px; }
+/* Hand zones (desktop) */
+.finger-zone { width: 25px; height: 40px; }
 
-.wrist-zone { width: 72px; height: 32px; top: 190px; left: 110px; }
+[data-finger="thumb"]  { top: 150px; left: 30px; }
+[data-finger="index"]  { top: 100px; left: 60px; }
+[data-finger="middle"] { top: 80px;  left: 100px; }
+[data-finger="ring"]   { top: 90px;  left: 130px; }
+[data-finger="pinky"]  { top: 110px; left: 160px; }
 
-/* Neck: tuned */
-.neck-zone { width: 140px; height: 90px; top: 145px; left: 60px; }
+.wrist-zone { width: 60px; height: 30px; top: 200px; left: 110px; }
 
-/* Ear: tuned (small target exactly on ear lobe) */
-.ear-zone { width: 26px; height: 26px; top: 112px; left: 162px; }
+/* Neck zone */
+.neck-zone { width: 120px; height: 80px; top: 210px; left: 77px; }
 
-/* Buttons */
+/* Ear zone */
+.ear-zone { width: 25px; height: 25px; top: 125px; left: 170px; }
+
+/* buttons */
 .button-container {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 10px;
   display: flex;
   justify-content: center;
   gap: 10px;
-  z-index: 50;
+  margin-top: 10px;
 }
 
+/* draggable base */
+.draggable {
+  width: 80px;
+  height: auto;
+  margin: 5px;
+  cursor: move;
+  filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
+  transition: width 0.2s ease, transform 0.2s ease;
+  z-index: 15;
+}
+
+.draggable.dragging {
+  opacity: 0.7;
+  transition: none;
+}
+
+/* sizes when worn (transform will be set by JS using zone data-rotate/data-scale) */
+.draggable.on-finger { width: 40px; }
+.draggable.on-wrist  { width: 60px; }
+.draggable.on-neck   { width: 120px; }
+.draggable.on-ear    { width: 30px; }
+
 button {
+  margin: 0;
   padding: 5px 15px;
   background-color: #ffd700;
   border: none;
   cursor: pointer;
   font-size: 0.9rem;
 }
-
-/* Draggables (better mouse catch) */
-.draggable {
-  width: 80px;
-  height: auto;
-  margin: 5px;
-  cursor: grab;
-  filter: drop-shadow(0 0 5px rgba(255,215,0,0.5));
-  user-select: none;
-  -webkit-user-drag: element;
-  touch-action: none;
-}
-.draggable:active { cursor: grabbing; }
-.draggable.dragging { opacity: 0.85; }
-
-/* When placed */
-.placed {
-  position: absolute !important;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%,-50%);
-  z-index: 30;
-  pointer-events: none; /* so zones still catch drops */
-}
-
-/* Size presets (you can tune later) */
-.placed.ring { width: 42px; }
-.placed.bracelet { width: 72px; }
-.placed.necklace { width: 140px; }
-.placed.earring { width: 34px; }
-
-/* Small extra realism per type */
-.placed.ring { transform: translate(-50%,-50%) rotate(12deg); }
-.placed.earring { transform: translate(-50%,-50%) rotate(0deg); }
-.placed.bracelet { transform: translate(-50%,-50%) rotate(0deg); }
-.placed.necklace { transform: translate(-50%,-50%) rotate(0deg); }
 
 /* Mobile */
 @media (max-width: 768px) {
@@ -251,8 +280,15 @@ button {
     transition: right 0.3s ease;
     z-index: 99;
   }
+
   .main-menu.active { right: 0; }
-  .main-menu ul { flex-direction: column; gap: 30px; text-align: center; }
+
+  .main-menu ul {
+    flex-direction: column;
+    gap: 30px;
+    text-align: center;
+  }
+
   .main-menu a { font-size: 1.2rem; }
 
   .hamburger.active .bar:nth-child(2) { opacity: 0; }
@@ -266,26 +302,34 @@ button {
     margin-bottom: 30px;
   }
 
-  .accessory-section, .drop-zone { width: 100%; padding: 10px; }
+  .accessory-section, .drop-zone {
+    width: 100%;
+    padding: 10px;
+  }
+
   .accessory-section { min-height: 200px; }
 
-  .drop-zone { width: 220px; height: 220px; }
-  .draggable { width: 70px; }
+  .drop-zone { width: 200px; height: 200px; }
 
-  /* Adjust snap zones a bit for smaller box */
-  .finger-zone { width: 24px; height: 34px; }
-  .finger-zone[data-target="thumb"]  { top: 125px; left: 40px; }
-  .finger-zone[data-target="index"]  { top: 82px;  left: 80px; }
-  .finger-zone[data-target="middle"] { top: 68px;  left: 105px; }
-  .finger-zone[data-target="ring"]   { top: 74px;  left: 128px; }
-  .finger-zone[data-target="pinky"]  { top: 88px;  left: 150px; }
+  .draggable { width: 60px; }
+  .draggable.on-finger { width: 30px; }
+  .draggable.on-wrist  { width: 55px; }
+  .draggable.on-neck   { width: 110px; }
+  .draggable.on-ear    { width: 25px; }
 
-  .wrist-zone { width: 64px; height: 30px; top: 168px; left: 95px; }
-  .neck-zone { width: 125px; height: 80px; top: 128px; left: 48px; }
-  .ear-zone { width: 24px; height: 24px; top: 98px; left: 140px; }
+  .finger-zone { width: 20px; height: 30px; }
+  [data-finger="thumb"]  { top: 120px; left: 25px; }
+  [data-finger="index"]  { top: 80px;  left: 50px; }
+  [data-finger="middle"] { top: 60px;  left: 80px; }
+  [data-finger="ring"]   { top: 70px;  left: 105px; }
+  [data-finger="pinky"]  { top: 90px;  left: 130px; }
 
-  .placed.ring { width: 36px; }
-  .placed.bracelet { width: 64px; }
-  .placed.necklace { width: 125px; }
-  .placed.earring { width: 30px; }
+  .wrist-zone { width: 50px; height: 25px; top: 160px; left: 80px; }
+  .neck-zone  { width: 100px; height: 60px; top: 165px; left: 55px; }
+  .ear-zone   { width: 20px;  height: 20px; top: 100px; left: 125px; }
+
+  h1 { font-size: 1.5rem; }
+  p  { font-size: 0.9rem; }
+  .accessory-section h2 { font-size: 1rem; }
+  .sub-section h3 { font-size: 0.9rem; }
 }

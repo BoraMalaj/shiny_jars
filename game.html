@@ -3,26 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Shiny Jar Game - drag jewelry to style her up!" />
+  <meta name="description" content="Shiny Jar - games area." />
   <meta name="keywords" content="jewelry, shiny jars, game, fashion, accessories" />
   <link rel="icon" type="image/png" href="favicon-32x32.png" />
   <title>Shiny Jar Game</title>
 
   <link rel="stylesheet" href="styles.css" />
 
-  <!-- Mobile drag & drop polyfill -->
   <script src="https://cdn.jsdelivr.net/npm/mobile-drag-drop@3.0.0-rc.0/index.min.js"></script>
   <script>
     window.MobileDragDrop = window.MobileDragDrop || {};
     MobileDragDrop.polyfill({ holdToDrag: 200 });
   </script>
+
+  <link rel="icon" type="image/png" href="favicon.png" />
 </head>
 
 <body>
   <header class="site-header">
     <div class="header-container">
       <div class="logo">
-        <a href="start.html"><img src="logo.png" alt="Shiny Jar Logo" class="logo-image"></a>
+        <a href="start.html"><img src="logo.png" alt="Shiny Jar Logo" class="logo-image" /></a>
       </div>
 
       <button class="hamburger" aria-label="Toggle Menu">
@@ -46,44 +47,43 @@
   <p>Drag items to style her up, return to the jar to swap!</p>
 
   <div class="container">
-
-    <!-- Hand Section -->
+    <!-- Hand Section Pair -->
     <div class="section-pair">
       <div class="accessory-section hand-accessories">
         <h2>Hand Accessories</h2>
 
         <div class="sub-section">
           <h3>Rings</h3>
-          <div class="accessory-items return-zone" id="rings">
-            <img src="ring1-3d.png" class="draggable ring" draggable="true" alt="Ring 1">
-            <img src="ring3-3d.png" class="draggable ring" draggable="true" alt="Ring 3">
-            <img src="ring4-3d.png" class="draggable ring" draggable="true" alt="Ring 4">
+          <div class="accessory-items" id="rings">
+            <img src="ring1-3d.png" class="draggable" draggable="true" data-type="ring" alt="Ring 1" />
+            <img src="ring3-3d.png" class="draggable" draggable="true" data-type="ring" alt="Ring 3" />
+            <img src="ring4-3d.png" class="draggable" draggable="true" data-type="ring" alt="Ring 4" />
           </div>
         </div>
 
         <div class="sub-section">
           <h3>Bracelets</h3>
-          <div class="accessory-items return-zone" id="bracelets">
-            <img src="bracelet4-3d.png" class="draggable bracelet" draggable="true" alt="Bracelet 4">
-            <img src="bracelet5-3d.png" class="draggable bracelet" draggable="true" alt="Bracelet 5">
-            <img src="bracelet6-3d.png" class="draggable bracelet" draggable="true" alt="Bracelet 6">
+          <div class="accessory-items" id="bracelets">
+            <img src="bracelet4-3d.png" class="draggable" draggable="true" data-type="bracelet" alt="Bracelet 4" />
+            <img src="bracelet5-3d.png" class="draggable" draggable="true" data-type="bracelet" alt="Bracelet 5" />
+            <img src="bracelet6-3d.png" class="draggable" draggable="true" data-type="bracelet" alt="Bracelet 6" />
           </div>
         </div>
       </div>
 
+      <!-- ✅ stage wrapper so rotate doesn’t rotate buttons -->
       <div class="drop-zone hand-container">
-        <!-- This stage rotates (hand + zones + placed jewelry) -->
-        <div class="stage" id="hand-stage">
-          <img src="hand-ai.png" class="base-image" id="hand" alt="Hand">
+        <div class="stage hand-stage">
+          <img src="hand-ai.png" class="base-image" id="hand" alt="Hand" />
 
-          <!-- Small zones (snap targets) -->
-          <div class="finger-zone drop-target" data-target="thumb"></div>
-          <div class="finger-zone drop-target" data-target="index"></div>
-          <div class="finger-zone drop-target" data-target="middle"></div>
-          <div class="finger-zone drop-target" data-target="ring"></div>
-          <div class="finger-zone drop-target" data-target="pinky"></div>
+          <!-- ✅ USE data-finger (matches CSS positioning) -->
+          <div class="finger-zone" data-finger="thumb"  data-rotate="-35" data-scale="0.80"></div>
+          <div class="finger-zone" data-finger="index"  data-rotate="-20" data-scale="0.80"></div>
+          <div class="finger-zone" data-finger="middle" data-rotate="-10" data-scale="0.80"></div>
+          <div class="finger-zone" data-finger="ring"   data-rotate="-5"  data-scale="0.80"></div>
+          <div class="finger-zone" data-finger="pinky"  data-rotate="10"  data-scale="0.75"></div>
 
-          <div class="wrist-zone drop-target" data-target="wrist"></div>
+          <div class="wrist-zone" data-zone="wrist" data-rotate="0" data-scale="0.95"></div>
         </div>
 
         <div class="button-container">
@@ -93,16 +93,61 @@
       </div>
     </div>
 
-    <!-- Neck Section -->
+    <!-- Neck Section Pair -->
     <div class="section-pair">
       <div class="accessory-section neck-accessories">
         <h2>Neck Accessories</h2>
-        <div class="accessory-items return-zone" id="neck-accessories">
-          <img src="necklace2-3d.png" class="draggable necklace" draggable="true" alt="Necklace 2">
-          <img src="necklace3-3d.png" class="draggable necklace" draggable="true" alt="Necklace 3">
-          <img src="necklace4-3d.png" class="draggable necklace" draggable="true" alt="Necklace 4">
+        <div class="accessory-items" id="neck-accessories">
+          <img src="necklace2-3d.png" class="draggable" draggable="true" data-type="necklace" alt="Necklace 2" />
+          <img src="necklace3-3d.png" class="draggable" draggable="true" data-type="necklace" alt="Necklace 3" />
+          <img src="necklace4-3d.png" class="draggable" draggable="true" data-type="necklace" alt="Necklace 4" />
         </div>
       </div>
 
       <div class="drop-zone neck-container">
-        <div class="stage" id="nec
+        <div class="stage neck-stage">
+          <img src="neck-ai.png" class="base-image" id="neck" alt="Neck" />
+          <div class="neck-zone" data-zone="neck" data-rotate="0" data-scale="1.00"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ear Section Pair -->
+    <div class="section-pair">
+      <div class="accessory-section earrings-area">
+        <h2>Earrings Area</h2>
+        <div class="accessory-items" id="earrings-area">
+          <img src="earring3-3d.png" class="draggable" draggable="true" data-type="earring" alt="Earring 3" />
+          <img src="earring4-3d.png" class="draggable" draggable="true" data-type="earring" alt="Earring 4" />
+          <img src="earring6-3d.png" class="draggable" draggable="true" data-type="earring" alt="Earring 6" />
+        </div>
+      </div>
+
+      <div class="drop-zone ear-container">
+        <div class="stage ear-stage">
+          <img src="ear-ai.png" class="base-image" id="ear" alt="Left Ear" />
+          <div class="ear-zone" data-zone="left-ear" data-rotate="12" data-scale="0.90"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p>Screenshot and share with #ShinyJarFun!</p>
+
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="social-links">
+        <a href="https://www.instagram.com/shiny_jar" target="_blank" rel="noopener noreferrer">
+          <img src="instagram-icon.png" alt="Instagram" class="social-icon" />
+        </a>
+        <a href="https://www.tiktok.com/@shiny__jar" target="_blank" rel="noopener noreferrer">
+          <img src="tiktok-icon.png" alt="TikTok" class="social-icon" />
+        </a>
+      </div>
+      <p>© 2025 Shiny Jars. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
