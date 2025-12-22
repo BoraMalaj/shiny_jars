@@ -3,11 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Shiny Jar - games area." />
+  <meta name="description" content="Shiny Jar Game - style jewelry on hand, neck and ear." />
   <meta name="keywords" content="jewelry, shiny jars, game, fashion, accessories" />
   <link rel="icon" type="image/png" href="favicon-32x32.png" />
   <title>Shiny Jar Game</title>
-
   <link rel="stylesheet" href="styles.css" />
 
   <script src="https://cdn.jsdelivr.net/npm/mobile-drag-drop@3.0.0-rc.0/index.min.js"></script>
@@ -25,11 +24,8 @@
       <div class="logo">
         <a href="start.html"><img src="logo.png" alt="Shiny Jar Logo" class="logo-image" /></a>
       </div>
-
       <button class="hamburger" aria-label="Toggle Menu">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
+        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
       </button>
 
       <nav class="main-menu">
@@ -47,7 +43,8 @@
   <p>Drag items to style her up, return to the jar to swap!</p>
 
   <div class="container">
-    <!-- Hand Section Pair -->
+
+    <!-- Hand -->
     <div class="section-pair">
       <div class="accessory-section hand-accessories">
         <h2>Hand Accessories</h2>
@@ -71,20 +68,17 @@
         </div>
       </div>
 
-      <!-- ✅ stage wrapper so rotate doesn’t rotate buttons -->
-      <div class="drop-zone hand-container">
-        <div class="stage hand-stage">
-          <img src="hand-ai.png" class="base-image" id="hand" alt="Hand" />
+      <div class="drop-zone hand-container" id="hand-drop">
+        <img src="hand-ai.png" class="base-image" id="hand" alt="Hand" />
 
-          <!-- ✅ USE data-finger (matches CSS positioning) -->
-          <div class="finger-zone" data-finger="thumb"  data-rotate="-35" data-scale="0.80"></div>
-          <div class="finger-zone" data-finger="index"  data-rotate="-20" data-scale="0.80"></div>
-          <div class="finger-zone" data-finger="middle" data-rotate="-10" data-scale="0.80"></div>
-          <div class="finger-zone" data-finger="ring"   data-rotate="-5"  data-scale="0.80"></div>
-          <div class="finger-zone" data-finger="pinky"  data-rotate="10"  data-scale="0.75"></div>
+        <!-- IMPORTANT: use data-zone (NOT data-finger) and we position by CSS -->
+        <div class="finger-zone" data-zone="thumb"  data-rotate="-35" data-scale="0.85"></div>
+        <div class="finger-zone" data-zone="index"  data-rotate="-20" data-scale="0.85"></div>
+        <div class="finger-zone" data-zone="middle" data-rotate="-10" data-scale="0.85"></div>
+        <div class="finger-zone" data-zone="ring"   data-rotate="-5"  data-scale="0.85"></div>
+        <div class="finger-zone" data-zone="pinky"  data-rotate="10"  data-scale="0.80"></div>
 
-          <div class="wrist-zone" data-zone="wrist" data-rotate="0" data-scale="0.95"></div>
-        </div>
+        <div class="wrist-zone" data-zone="wrist" data-rotate="0" data-scale="0.95"></div>
 
         <div class="button-container">
           <button id="rotate-left">Rotate Left</button>
@@ -93,7 +87,7 @@
       </div>
     </div>
 
-    <!-- Neck Section Pair -->
+    <!-- Neck -->
     <div class="section-pair">
       <div class="accessory-section neck-accessories">
         <h2>Neck Accessories</h2>
@@ -104,15 +98,13 @@
         </div>
       </div>
 
-      <div class="drop-zone neck-container">
-        <div class="stage neck-stage">
-          <img src="neck-ai.png" class="base-image" id="neck" alt="Neck" />
-          <div class="neck-zone" data-zone="neck" data-rotate="0" data-scale="1.00"></div>
-        </div>
+      <div class="drop-zone neck-container" id="neck-drop">
+        <img src="neck-ai.png" class="base-image" id="neck" alt="Neck" />
+        <div class="neck-zone" data-zone="neck" data-rotate="0" data-scale="1.00"></div>
       </div>
     </div>
 
-    <!-- Ear Section Pair -->
+    <!-- Ear -->
     <div class="section-pair">
       <div class="accessory-section earrings-area">
         <h2>Earrings Area</h2>
@@ -123,13 +115,12 @@
         </div>
       </div>
 
-      <div class="drop-zone ear-container">
-        <div class="stage ear-stage">
-          <img src="ear-ai.png" class="base-image" id="ear" alt="Left Ear" />
-          <div class="ear-zone" data-zone="left-ear" data-rotate="12" data-scale="0.90"></div>
-        </div>
+      <div class="drop-zone ear-container" id="ear-drop">
+        <img src="ear-ai.png" class="base-image" id="ear" alt="Left Ear" />
+        <div class="ear-zone" data-zone="left-ear" data-rotate="12" data-scale="0.90"></div>
       </div>
     </div>
+
   </div>
 
   <p>Screenshot and share with #ShinyJarFun!</p>
