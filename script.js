@@ -1,7 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // -------------------------
-  // Elements
-  // -------------------------
   const draggables = document.querySelectorAll(".draggable");
 
   const fingerZones = document.querySelectorAll(".finger-zone");
@@ -14,21 +11,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const neckAccessories = document.getElementById("neck-accessories");
   const earringsArea = document.getElementById("earrings-area");
 
-  const hand = document.getElementById("hand");
+  const handImg = document.getElementById("hand");
   const rotateLeftBtn = document.getElementById("rotate-left");
   const rotateRightBtn = document.getElementById("rotate-right");
+  let rotation = 0;
 
-  // Safety checks (prevents JS from crashing)
-  if (!hand || !rotateLeftBtn || !rotateRightBtn) {
-    console.warn("Hand or rotate buttons not found. Check IDs in game.html.");
-  }
-
-  // -------------------------
-  // Hamburger Menu
-  // -------------------------
+  // MENU
   const hamburger = document.querySelector(".hamburger");
   const mainMenu = document.querySelector(".main-menu");
-
   if (hamburger && mainMenu) {
     hamburger.addEventListener("click", () => {
       hamburger.classList.toggle("active");
@@ -43,205 +33,118 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // -------------------------
-  // Rotation buttons
-  // -------------------------
-  let rotation = 0;
+  // ✅ ROTATE buttons working
+  rotateLeftBtn.addEventListener("click", () => {
+    rotation -= 15;
+    handImg.style.transform = `rotate(${rotation}deg)`;
+  });
 
-  if (rotateLeftBtn && hand) {
-    rotateLeftBtn.addEventListener("click", () => {
-      rotation -= 15;
-      hand.style.transform = `rotate(${rotation}deg)`;
-    });
+  rotateRightBtn.addEventListener("click", () => {
+    rotation += 15;
+    handImg.style.transform = `rotate(${rotation}deg)`;
+  });
+
+  // --- Helpers ---
+  function clearPlacedClasses(el) {
+    el.classList.remove("on-finger", "on-wrist", "on-neck", "on-ear");
   }
 
-  if (rotateRightBtn && hand) {
-    rotateRightBtn.addEventListener("click", () => {
-      rotation += 15;
-      hand.style.transform = `rotate(${rotation}deg)`;
-    });
-  }
+  // This makes items "fit" nicer when placed
+  function applyFit(el, fitClass) {
+    clearPlacedClasses(el);
+    el.classList.add(fitClass);
 
-  // -------------------------
-  // Helpers
-  // -------------------------
-  const returnZones = [rings, bracelets, neckAccessories, earringsArea].filter(Boolean);
-  const dropZones = [
-    ...Array.from(fingerZones),
-    wristZone,
-    neckZone,
-    earZone,
-    ...returnZones,
-  ].filter(Boolean);
+    // position inside its zone
+    el.style.position = "absolute";
+    el.style.left = "50%";
+    el.style.top = "50%";
+    el.style.zIndex = "40";
 
-  function getZoneFromPoint(x, y) {
-    // elementFromPoint returns top-most element under pointer
-    const el = document.elementFromPoint(x, y);
-    if (!el) return null;
-
-    // If you drop on the hand image, walk up to find a zone parent
-    return el.closest(".finger-zone, .wrist-zone, .neck-zone, .ear-zone, #rings, #bracelets, #neck-accessories, #earrings-area");
-  }
-
-  function resetToList(draggable) {
-    const originId = draggable.dataset.origin;
-    const originEl = originId ? document.getElementById(originId) : null;
-
-    if (originEl) originEl.appendChild(draggable);
-
-    draggable.style.position = "static";
-    draggable.style.left = "";
-    draggable.style.top = "";
-    draggable.style.transform = "none";
-    draggable.style.zIndex = "";
-    draggable.classList.remove("on-finger", "on-wrist", "on-neck", "on-ear");
-  }
-
-  function snapToZone(draggable, zone) {
-    // If dropped back to the lists => reset
-    if (zone.id === "rings" || zone.id === "bracelets" || zone.id === "neck-accessories" || zone.id === "earrings-area") {
-      zone.appendChild(draggable);
-      draggable.style.position = "static";
-      draggable.style.left = "";
-      draggable.style.top = "";
-      draggable.style.transform = "none";
-      draggable.style.zIndex = "";
-      draggable.classList.remove("on-finger", "on-wrist", "on-neck", "on-ear");
-      return;
+    // default transforms by type (you can adjust small degrees here)
+    if (fitClass === "on-finger") {
+      el.style.transform = "translate(-50%, -50%) rotate(12deg)";
+    } else if (fitClass === "on-wrist") {
+      el.style.transform = "translate(-50%, -50%) rotate(0deg)";
+    } else if (fitClass === "on-neck") {
+      el.style.transform = "translate(-50%, -50%) rotate(0deg)";
+    } else if (fitClass === "on-ear") {
+      // earrings often look better slightly smaller and centered
+      el.style.transform = "translate(-50%, -50%) rotate(0deg)";
     }
-
-    // Dropped on wearable zones => center inside zone
-    zone.appendChild(draggable);
-    draggable.style.position = "absolute";
-    draggable.style.left = "50%";
-    draggable.style.top = "50%";
-    draggable.style.zIndex = "25";
-
-    draggable.classList.remove("on-finger", "on-wrist", "on-neck", "on-ear");
-
-    if (zone.classList.contains("finger-zone")) {
-      draggable.classList.add("on-finger");
-      draggable.style.transform = "translate(-50%, -50%) scale(0.85) rotate(15deg)";
-    } else if (zone.classList.contains("wrist-zone")) {
-      draggable.classList.add("on-wrist");
-      draggable.style.transform = "translate(-50%, -50%) scale(1.0) rotate(0deg)";
-    } else if (zone.classList.contains("neck-zone")) {
-      draggable.classList.add("on-neck");
-      draggable.style.transform = "translate(-50%, -50%) scale(1.0) rotate(0deg)";
-    }  else if (zone.classList.contains("ear-zone")) {
-      draggable.classList.add("on-ear");
-  // Fine-tuned ear placement
-  draggable.style.transform =
-    "translate(-45%, -55%) scale(0.65) rotate(-8deg)";
-}
-
   }
 
-  // -------------------------
-  // Pointer drag (desktop + mobile)
-  // -------------------------
-  let activeItem = null;
-  let startX = 0;
-  let startY = 0;
-  let startLeft = 0;
-  let startTop = 0;
-  let dragging = false;
+  function resetToTray(el) {
+    el.style.position = "static";
+    el.style.left = "";
+    el.style.top = "";
+    el.style.transform = "none";
+    el.style.zIndex = "";
+    clearPlacedClasses(el);
+  }
 
-  draggables.forEach((item) => {
-    // Remember original container once
-    const origin = item.closest("#rings, #bracelets, #neck-accessories, #earrings-area");
-    if (origin && !item.dataset.origin) item.dataset.origin = origin.id;
+  // --- Drag logic ---
+  draggables.forEach((el) => {
+    el.addEventListener("dragstart", (e) => {
+      el.classList.add("dragging");
+      // needed for Firefox
+      e.dataTransfer.setData("text/plain", "drag");
+      e.dataTransfer.effectAllowed = "move";
 
-    // IMPORTANT: pointer events
-    item.addEventListener("pointerdown", (e) => {
-      // stop page scroll while dragging
-      e.preventDefault();
-
-      activeItem = item;
-      dragging = true;
-      item.classList.add("dragging");
-
-      // Put item on top of everything while moving
-      item.style.zIndex = "9999";
-      item.style.position = "fixed"; // fixed makes movement easy across page
-      item.style.transform = "none";
-
-      // Start positions
-      startX = e.clientX;
-      startY = e.clientY;
-
-      const rect = item.getBoundingClientRect();
-      startLeft = rect.left;
-      startTop = rect.top;
-
-      // place fixed at its current screen position
-      item.style.left = `${startLeft}px`;
-      item.style.top = `${startTop}px`;
-
-      item.setPointerCapture(e.pointerId);
+      // hide the default ghost image (optional but nice)
+      const img = new Image();
+      img.src = "transparent.png";
+      e.dataTransfer.setDragImage(img, 0, 0);
     });
 
-    item.addEventListener("pointermove", (e) => {
-      if (!dragging || !activeItem) return;
-
-      const dx = e.clientX - startX;
-      const dy = e.clientY - startY;
-
-      activeItem.style.left = `${startLeft + dx}px`;
-      activeItem.style.top = `${startTop + dy}px`;
-    });
-
-    item.addEventListener("pointerup", (e) => {
-      if (!activeItem) return;
-
-      dragging = false;
-      activeItem.classList.remove("dragging");
-
-      // Find drop zone under pointer
-      const zone = getZoneFromPoint(e.clientX, e.clientY);
-
-      if (zone) {
-        // Convert fixed -> absolute inside zone
-        activeItem.style.position = "absolute";
-        activeItem.style.left = "";
-        activeItem.style.top = "";
-        activeItem.style.zIndex = "";
-
-        snapToZone(activeItem, zone);
-      } else {
-        // Not dropped anywhere => go back to original list
-        resetToList(activeItem);
-      }
-
-      activeItem = null;
-    });
-
-    item.addEventListener("pointercancel", () => {
-      if (!activeItem) return;
-      resetToList(activeItem);
-      activeItem = null;
-      dragging = false;
+    el.addEventListener("dragend", () => {
+      el.classList.remove("dragging");
     });
   });
 
-  // Prevent default browser drag image behavior (we use pointer drag instead)
-  draggables.forEach((img) => {
-    img.addEventListener("dragstart", (e) => e.preventDefault());
-  });
-
-  // Optional: avoid click “ghost” on mobile after dragging
-  document.addEventListener("click", (e) => {
-    if (e.target.classList && e.target.classList.contains("draggable")) {
+  function enableDrop(targetEl, fitClass) {
+    targetEl.addEventListener("dragover", (e) => {
       e.preventDefault();
-    }
+      e.dataTransfer.dropEffect = "move";
+    });
+
+    targetEl.addEventListener("drop", (e) => {
+      e.preventDefault();
+      const dragging = document.querySelector(".draggable.dragging");
+      if (!dragging) return;
+
+      // append into zone so it sits exactly inside the yellow box
+      targetEl.appendChild(dragging);
+      applyFit(dragging, fitClass);
+      dragging.classList.remove("dragging");
+    });
+  }
+
+  // Drop onto hand zones
+  fingerZones.forEach((zone) => enableDrop(zone, "on-finger"));
+  enableDrop(wristZone, "on-wrist");
+
+  // Drop onto neck/ear zones
+  enableDrop(neckZone, "on-neck");
+  enableDrop(earZone, "on-ear");
+
+  // Return to trays (swap back)
+  [rings, bracelets, neckAccessories, earringsArea].forEach((tray) => {
+    tray.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = "move";
+    });
+
+    tray.addEventListener("drop", (e) => {
+      e.preventDefault();
+      const dragging = document.querySelector(".draggable.dragging");
+      if (!dragging) return;
+
+      tray.appendChild(dragging);
+      resetToTray(dragging);
+      dragging.classList.remove("dragging");
+    });
   });
 });
-
-
-
-
-
-
 
 
 
