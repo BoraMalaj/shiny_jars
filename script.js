@@ -1,7 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const draggables = document.querySelectorAll(".draggable");
+  // ----------------------------
+  // Elements
+  // ----------------------------
+  const draggables = Array.from(document.querySelectorAll(".draggable"));
 
-  const fingerZones = document.querySelectorAll(".finger-zone");
+  const fingerZones = Array.from(document.querySelectorAll(".finger-zone"));
   const wristZone = document.querySelector(".wrist-zone");
   const neckZone = document.querySelector(".neck-zone");
   const earZone = document.querySelector(".ear-zone");
@@ -15,25 +18,25 @@ document.addEventListener("DOMContentLoaded", () => {
   const rotateLeftBtn = document.getElementById("rotate-left");
   const rotateRightBtn = document.getElementById("rotate-right");
 
-  let rotation = 0;
+  // If any critical element is missing, do NOT crash the whole script.
+  // This avoids "nothing works" situations.
+  if (!rings || !bracelets || !neckAccessories || !earringsArea) {
+    console.error("Missing accessory containers (rings/bracelets/neck-accessories/earrings-area). Check your IDs in game.html");
+    return;
+  }
 
-  // ✅ Keep track of the currently dragged item (works for desktop + mobile)
-  let currentDrag = null;
-
-  // ---------------------------
-  // Hamburger Menu Logic
-  // ---------------------------
+  // ----------------------------
+  // Hamburger menu (safe)
+  // ----------------------------
   const hamburger = document.querySelector(".hamburger");
   const mainMenu = document.querySelector(".main-menu");
-
   if (hamburger && mainMenu) {
     hamburger.addEventListener("click", () => {
       hamburger.classList.toggle("active");
       mainMenu.classList.toggle("active");
     });
 
-    const menuLinks = document.querySelectorAll(".main-menu a");
-    menuLinks.forEach((link) => {
+    document.querySelectorAll(".main-menu a").forEach((link) => {
       link.addEventListener("click", () => {
         hamburger.classList.remove("active");
         mainMenu.classList.remove("active");
@@ -41,243 +44,185 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ---------------------------
-  // Helpers
-  // ---------------------------
-  const resetToTray = (el) => {
-    // return back to whichever tray it belongs to (rings/bracelets/neck/earrings)
-    const originalContainer =
-      el.dataset.home
-        ? document.getElementById(el.dataset.home)
-        : (el.closest("#rings") ||
-          el.closest("#bracelets") ||
-          el.closest("#neck-accessories") ||
-          el.closest("#earrings-area"));
-
-    if (originalContainer) originalContainer.appendChild(el);
-
-    el.style.position = "static";
-    el.style.left = "";
-    el.style.top = "";
-    el.style.zIndex = "";
-    el.style.transform = "none";
-    el.classList.remove("on-finger", "on-wrist", "on-neck", "on-ear");
-  };
-
-  const placeInZoneCenter = (el, className, zone) => {
-    // Put item inside the zone and center it
-    zone.appendChild(el);
-    el.style.position = "absolute";
-    el.style.left = "50%";
-    el.style.top = "50%";
-    el.style.zIndex = ""; // let CSS control
-
-    el.classList.remove("on-finger", "on-wrist", "on-neck", "on-ear");
-    el.classList.add(className);
-
-    // Let CSS classes drive size/rotate, BUT we still ensure center
-    // (Your CSS already uses translate(-50%, -50%) in those classes)
-    // So no extra transform here.
-  };
-
-  const pointInsideRect = (x, y, rect) => {
-    return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
-  };
-
-  const getDropTargetZone = (clientX, clientY) => {
-    // Order matters: try finger zones first, then wrist, neck, ear, then return trays
-    const candidates = [
-      ...fingerZones,
-      wristZone,
-      neckZone,
-      earZone,
-      rings,
-      bracelets,
-      neckAccessories,
-      earringsArea
-    ].filter(Boolean);
-
-    for (const zone of candidates) {
-      const rect = zone.getBoundingClientRect();
-      if (pointInsideRect(clientX, clientY, rect)) return zone;
-    }
-    return null;
-  };
-
-  const zoneToClass = (zone) => {
-    if (!zone) return null;
-    if (zone.classList.contains("finger-zone")) return "on-finger";
-    if (zone.classList.contains("wrist-zone")) return "on-wrist";
-    if (zone.classList.contains("neck-zone")) return "on-neck";
-    if (zone.classList.contains("ear-zone")) return "on-ear";
-    return "return"; // trays
-  };
-
-  // Save "home tray" once so we can return correctly on mobile
-  draggables.forEach((el) => {
-    const tray =
-      el.closest("#rings")?.id ||
-      el.closest("#bracelets")?.id ||
-      el.closest("#neck-accessories")?.id ||
-      el.closest("#earrings-area")?.id;
-
-    if (tray) el.dataset.home = tray;
-  });
-
-  // ---------------------------
-  // Desktop drag events
-  // ---------------------------
-  draggables.forEach((draggable) => {
-    draggable.addEventListener("dragstart", (e) => {
-      currentDrag = draggable;
-      draggable.classList.add("dragging");
-
-      // Needed for some browsers
-      e.dataTransfer.setData("text/plain", "drag");
-
-      // Optional: hide default ghost image
-      try {
-        const img = new Image();
-        img.src = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="; // 1px transparent
-        e.dataTransfer.setDragImage(img, 0, 0);
-      } catch (err) {}
-    });
-
-    draggable.addEventListener("dragend", () => {
-      draggable.classList.remove("dragging");
-      currentDrag = null;
-    });
-  });
-
-  // ---------------------------
-  // Desktop drop zones
-  // ---------------------------
-  const attachDropHandlers = (zone) => {
-    zone.addEventListener("dragover", (e) => {
+  // ----------------------------
+  // Rotation buttons (safe)
+  // ----------------------------
+  let rotation = 0;
+  if (rotateLeftBtn && hand) {
+    rotateLeftBtn.addEventListener("click", (e) => {
       e.preventDefault();
-      e.dataTransfer.dropEffect = "move";
-    });
-
-    zone.addEventListener("drop", (e) => {
-      e.preventDefault();
-      const el = currentDrag;
-      if (!el) return;
-
-      const kind = zoneToClass(zone);
-
-      if (kind === "return") {
-        // Return tray
-        zone.appendChild(el);
-        resetToTray(el);
-      } else {
-        placeInZoneCenter(el, kind, zone);
-      }
-
-      el.classList.remove("dragging");
-      currentDrag = null;
-    });
-  };
-
-  [...fingerZones, wristZone, neckZone, earZone, rings, bracelets, neckAccessories, earringsArea]
-    .filter(Boolean)
-    .forEach(attachDropHandlers);
-
-  // ---------------------------
-  // Mobile touch drag (custom)
-  // ---------------------------
-  draggables.forEach((draggable) => {
-    let startX = 0;
-    let startY = 0;
-
-    draggable.addEventListener(
-      "touchstart",
-      (e) => {
-        // IMPORTANT: prevent scrolling while dragging that item
-        e.preventDefault();
-
-        currentDrag = draggable;
-        draggable.classList.add("dragging");
-
-        const t = e.touches[0];
-        const rect = draggable.getBoundingClientRect();
-
-        startX = t.clientX - rect.left;
-        startY = t.clientY - rect.top;
-
-        draggable.style.position = "fixed"; // fixed helps mobile
-        draggable.style.zIndex = "1000";
-        draggable.style.left = `${t.clientX - startX}px`;
-        draggable.style.top = `${t.clientY - startY}px`;
-      },
-      { passive: false }
-    );
-
-    draggable.addEventListener(
-      "touchmove",
-      (e) => {
-        if (!currentDrag) return;
-        e.preventDefault();
-
-        const t = e.touches[0];
-        currentDrag.style.left = `${t.clientX - startX}px`;
-        currentDrag.style.top = `${t.clientY - startY}px`;
-      },
-      { passive: false }
-    );
-
-    draggable.addEventListener(
-      "touchend",
-      (e) => {
-        if (!currentDrag) return;
-
-        const t = e.changedTouches[0];
-        const zone = getDropTargetZone(t.clientX, t.clientY);
-        const kind = zoneToClass(zone);
-
-        // Clean dragging state (AFTER we decide where it goes)
-        currentDrag.classList.remove("dragging");
-
-        if (!zone) {
-          // dropped nowhere -> return home
-          resetToTray(currentDrag);
-          currentDrag = null;
-          return;
-        }
-
-        if (kind === "return") {
-          // return to trays
-          zone.appendChild(currentDrag);
-          resetToTray(currentDrag);
-        } else {
-          // place on body zones
-          // when appending, fixed positioning will be wrong, so reset to absolute in zone:
-          placeInZoneCenter(currentDrag, kind, zone);
-        }
-
-        currentDrag.style.position = ""; // remove fixed
-        currentDrag.style.zIndex = "";
-
-        currentDrag = null;
-      },
-      { passive: true }
-    );
-  });
-
-  // ---------------------------
-  // Rotate buttons
-  // ---------------------------
-  if (rotateLeftBtn && rotateRightBtn && hand) {
-    rotateLeftBtn.addEventListener("click", () => {
+      e.stopPropagation();
       rotation -= 15;
       hand.style.transform = `rotate(${rotation}deg)`;
     });
-
-    rotateRightBtn.addEventListener("click", () => {
+  }
+  if (rotateRightBtn && hand) {
+    rotateRightBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
       rotation += 15;
       hand.style.transform = `rotate(${rotation}deg)`;
     });
   }
+
+  // ----------------------------
+  // Drop targets list
+  // ----------------------------
+  const dropTargets = [
+    ...fingerZones,
+    wristZone,
+    neckZone,
+    earZone,
+    rings,
+    bracelets,
+    neckAccessories,
+    earringsArea
+  ].filter(Boolean);
+
+  function isInside(el, x, y) {
+    const r = el.getBoundingClientRect();
+    return x >= r.left && x <= r.right && y >= r.top && y <= r.bottom;
+  }
+
+  function resetToContainer(img, container) {
+    container.appendChild(img);
+    img.style.position = "static";
+    img.style.left = "";
+    img.style.top = "";
+    img.style.transform = "none";
+    img.style.zIndex = "";
+    img.classList.remove("on-finger", "on-wrist", "on-neck", "on-ear");
+  }
+
+  function snapToZone(img, zone, className) {
+    zone.appendChild(img);
+    img.style.position = "absolute";
+    img.style.left = "50%";
+    img.style.top = "50%";
+    img.style.zIndex = "60"; // above zones
+
+    img.classList.remove("on-finger", "on-wrist", "on-neck", "on-ear");
+    img.classList.add(className);
+
+    // Let CSS do sizing; we only ensure it centers
+    // (CSS classes already use translate(-50%, -50%))
+    // If you want a custom tweak per zone, you can do it here.
+  }
+
+  // ----------------------------
+  // Pointer drag (works desktop + mobile)
+  // ----------------------------
+  let active = null;
+
+  draggables.forEach((img) => {
+    // Save original container (so return works)
+    img.dataset.home =
+      img.closest("#rings")?.id ||
+      img.closest("#bracelets")?.id ||
+      img.closest("#neck-accessories")?.id ||
+      img.closest("#earrings-area")?.id ||
+      "";
+
+    img.style.touchAction = "none"; // IMPORTANT: allows pointermove on mobile
+
+    img.addEventListener("pointerdown", (e) => {
+      // Prevent scrolling/selection while dragging
+      e.preventDefault();
+
+      active = {
+        img,
+        pointerId: e.pointerId,
+        startX: e.clientX,
+        startY: e.clientY,
+        // get position in page for smooth movement
+        offsetX: 0,
+        offsetY: 0
+      };
+
+      img.setPointerCapture(e.pointerId);
+      img.classList.add("dragging");
+
+      // Move to body so it can travel freely above everything
+      const rect = img.getBoundingClientRect();
+      active.offsetX = e.clientX - rect.left;
+      active.offsetY = e.clientY - rect.top;
+
+      document.body.appendChild(img);
+      img.style.position = "fixed";
+      img.style.left = `${rect.left}px`;
+      img.style.top = `${rect.top}px`;
+      img.style.zIndex = "9999";
+      img.style.transform = "none"; // while dragging
+    });
+
+    img.addEventListener("pointermove", (e) => {
+      if (!active || active.pointerId !== e.pointerId) return;
+
+      const newLeft = e.clientX - active.offsetX;
+      const newTop = e.clientY - active.offsetY;
+      active.img.style.left = `${newLeft}px`;
+      active.img.style.top = `${newTop}px`;
+    });
+
+    img.addEventListener("pointerup", (e) => {
+      if (!active || active.pointerId !== e.pointerId) return;
+
+      const x = e.clientX;
+      const y = e.clientY;
+
+      // Find drop target
+      let target = null;
+      for (const z of dropTargets) {
+        if (isInside(z, x, y)) {
+          target = z;
+          break;
+        }
+      }
+
+      // Decide behavior
+      if (!target) {
+        // Return home
+        const homeId = img.dataset.home;
+        const homeEl =
+          document.getElementById(homeId) ||
+          rings; // fallback
+        resetToContainer(img, homeEl);
+      } else {
+        // If returned to accessory areas
+        if (target === rings || target === bracelets || target === neckAccessories || target === earringsArea) {
+          // Update "home" to the new area
+          img.dataset.home = target.id;
+          resetToContainer(img, target);
+        } else {
+          // Dropped on body zones
+          if (target.classList.contains("finger-zone")) snapToZone(img, target, "on-finger");
+          else if (target.classList.contains("wrist-zone")) snapToZone(img, target, "on-wrist");
+          else if (target.classList.contains("neck-zone")) snapToZone(img, target, "on-neck");
+          else if (target.classList.contains("ear-zone")) snapToZone(img, target, "on-ear");
+          else {
+            // fallback return
+            resetToContainer(img, rings);
+          }
+        }
+      }
+
+      img.classList.remove("dragging");
+      active = null;
+    });
+
+    img.addEventListener("pointercancel", () => {
+      if (!active) return;
+      active.img.classList.remove("dragging");
+
+      const homeId = img.dataset.home;
+      const homeEl = document.getElementById(homeId) || rings;
+      resetToContainer(img, homeEl);
+
+      active = null;
+    });
+  });
 });
+
 
 
 

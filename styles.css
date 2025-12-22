@@ -229,12 +229,15 @@ p {
 .ear-zone { width: 25px; height: 25px; top: 125px; left: 170px; }
 
 /* Buttons */
-.button-container {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 10px;
+.button-container{
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  z-index: 1000;
+  pointer-events: auto;
 }
+
 
 /* Draggables base */
 .draggable {
@@ -253,15 +256,10 @@ p {
 }
 
 /* ✅ FIX: when item is placed on body, make it behave like a sticker */
-.finger-zone .draggable,
-.wrist-zone .draggable,
-.neck-zone .draggable,
-.ear-zone .draggable {
-    position: absolute;
-    z-index: 30;
-    transform-origin: center center;
-    pointer-events: auto;
+.finger-zone, .wrist-zone, .neck-zone, .ear-zone {
+  pointer-events: auto; /* keep for dropping */
 }
+
 
 /* Sizes while worn */
 .draggable.on-finger {
