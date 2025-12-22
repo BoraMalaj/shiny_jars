@@ -443,4 +443,19 @@ button {
     p  { font-size: 0.9rem; }
     .accessory-section h2 { font-size: 1rem; }
     .sub-section h3 { font-size: 0.9rem; }
+
+    /* Make grabbing easier + keep zones clickable */
+.draggable { cursor: grab; }
+.draggable:active { cursor: grabbing; }
+
+/* Base image should not block drops */
+.base-image { pointer-events: none; }
+
+/* Zones should accept drops */
+.finger-zone, .wrist-zone, .neck-zone, .ear-zone { pointer-events: auto; }
+
+/* When item is placed inside drop-zone */
+.drop-zone { position: relative; }
+.drop-zone .draggable { position: absolute; }
+
 }

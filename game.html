@@ -78,19 +78,22 @@
                 </div>
             </div>
             <div class="drop-zone hand-container">
-                <img src="hand-ai.png" class="base-image" id="hand" alt="Hand">
-              <div class="finger-zone" data-zone="thumb"  data-rotate="-35" data-scale="0.80"></div>
-              <div class="finger-zone" data-zone="index"  data-rotate="-20" data-scale="0.80"></div>
-              <div class="finger-zone" data-zone="middle" data-rotate="-10" data-scale="0.80"></div>
-              <div class="finger-zone" data-zone="ring"   data-rotate="-5"  data-scale="0.80"></div>
-              <div class="finger-zone" data-zone="pinky"  data-rotate="10"  data-scale="0.75"></div>
+            <img src="hand-ai.png" class="base-image" id="hand" alt="Hand">
 
-              <div class="wrist-zone"  data-zone="wrist"  data-rotate="0"   data-scale="0.95"></div>
-                <div class="button-container">
-                    <button id="rotate-left">Rotate Left</button>
-                    <button id="rotate-right">Rotate Right</button>
-                </div>
-            </div>
+            <!-- Snap points (tune x/y until perfect) -->
+            <div class="finger-zone" data-finger="thumb"  data-x="50"  data-y="165" data-scale="0.55" data-rot="-20"></div>
+            <div class="finger-zone" data-finger="index"  data-x="92"  data-y="118" data-scale="0.52" data-rot="-15"></div>
+            <div class="finger-zone" data-finger="middle" data-x="122" data-y="95"  data-scale="0.52" data-rot="-10"></div>
+            <div class="finger-zone" data-finger="ring"   data-x="146" data-y="105" data-scale="0.52" data-rot="-8"></div>
+            <div class="finger-zone" data-finger="pinky"  data-x="170" data-y="122" data-scale="0.50" data-rot="-5"></div>
+
+            <div class="wrist-zone" data-zone="wrist" data-x="140" data-y="210" data-scale="0.90" data-rot="0"></div>
+
+            <div class="button-container">
+            <button id="rotate-left">Rotate Left</button>
+            <button id="rotate-right">Rotate Right</button>
+           </div>
+          </div>
         </div>
 
         <!-- Neck Section Pair -->
@@ -103,11 +106,11 @@
                     <img src="necklace3-3d.png" class="draggable" draggable="true" data-type="necklace" alt="Necklace 3">
                     <img src="necklace4-3d.png" class="draggable" draggable="true" data-type="necklace" alt="Necklace 4">
                 </div>
-            </div>
-            <div class="drop-zone neck-container">
-                <img src="neck-ai.png" class="base-image" id="neck" alt="Neck">
-                <div class="neck-zone" data-zone="neck" data-rotate="0" data-scale="1.00"></div>
-            </div>
+           </div>
+             <div class="drop-zone neck-container">
+             <img src="neck-ai.png" class="base-image" id="neck" alt="Neck">
+             <div class="neck-zone" data-zone="neck" data-x="125" data-y="190" data-scale="0.95" data-rot="0"></div>
+           </div>
         </div>
 
         <!-- Ear Section Pair -->
@@ -122,10 +125,10 @@
                     <img src="earring6-3d.png" class="draggable" draggable="true" data-type="earring" alt="Earring 6">
                 </div>
             </div>
-            <div class="drop-zone ear-container">
-                <img src="ear-ai.png" class="base-image" id="ear" alt="Left Ear">
-                <div class="ear-zone" data-zone="left-ear" data-rotate="12" data-scale="0.90"></div>
-            </div>
+             <div class="drop-zone ear-container">
+              <img src="ear-ai.png" class="base-image" id="ear" alt="Left Ear">
+              <div class="ear-zone" data-zone="left-ear" data-x="170" data-y="130" data-scale="0.65" data-rot="0"></div>
+             </div>
         </div>
     </div>
 
