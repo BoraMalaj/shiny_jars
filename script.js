@@ -128,10 +128,13 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if (zone.classList.contains("neck-zone")) {
       draggable.classList.add("on-neck");
       draggable.style.transform = "translate(-50%, -50%) scale(1.0) rotate(0deg)";
-    } else if (zone.classList.contains("ear-zone")) {
+    }  else if (zone.classList.contains("ear-zone")) {
       draggable.classList.add("on-ear");
-      draggable.style.transform = "translate(-50%, -50%) scale(0.75) rotate(0deg)";
-    }
+  // Fine-tuned ear placement
+  draggable.style.transform =
+    "translate(-45%, -55%) scale(0.65) rotate(-8deg)";
+}
+
   }
 
   // -------------------------

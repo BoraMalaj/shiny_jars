@@ -249,6 +249,14 @@ p {
     filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
     transition: width 0.2s ease, transform 0.2s ease;
     z-index: 15;
+    position: relative;
+}
+
+.draggable::before {
+  content: "";
+  position: absolute;
+  inset: -15px;          /* increases clickable area */
+  background: transparent;
 }
 
 .draggable.dragging {
@@ -286,6 +294,15 @@ p {
     transform: translate(-50%, -50%) scale(0.8) rotate(15deg);
     filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.8));
 }
+
+.on-finger {
+  cursor: grab;
+}
+
+.on-finger:active {
+  cursor: grabbing;
+}
+
 
 button {
     margin: 0;
