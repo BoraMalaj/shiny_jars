@@ -84,7 +84,7 @@ p  { font-size: 1rem; }
 }
 .social-icon:hover { transform: scale(1.1); }
 
-/* Draggable (don’t kill desktop drag) */
+/* Draggable */
 .draggable {
   -webkit-touch-callout: none;
   user-select: none;
@@ -145,6 +145,36 @@ p  { font-size: 1rem; }
   overflow: hidden;
 }
 
+/* Small toolbar inside each drop-zone */
+.drop-toolbar {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.drop-title {
+  font-size: 0.9rem;
+  color: #ffd700;
+  pointer-events: none;
+}
+
+.side-toggle {
+  pointer-events: auto;
+  padding: 6px 10px;
+  font-size: 0.85rem;
+  background-color: #ffd700;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+/* Base image */
 .base-image {
   width: 100%;
   height: 100%;
@@ -155,6 +185,10 @@ p  { font-size: 1rem; }
   filter: drop-shadow(0 5px 10px rgba(0,0,0,0.7));
 }
 
+/* Zone grouping */
+.zone-group { position: absolute; inset: 0; z-index: 20; }
+.hidden { display: none !important; }
+
 /* Zones: invisible but active */
 .finger-zone, .wrist-zone, .neck-zone, .ear-zone {
   position: absolute;
@@ -163,20 +197,39 @@ p  { font-size: 1rem; }
   border: none;
 }
 
-/* ✅ IMPORTANT FIX: position by data-zone (matches HTML) */
-/* Hand zones */
-.finger-zone { width: 25px; height: 40px; }
-.finger-zone[data-zone="thumb"]  { top: 150px; left: 30px; }
-.finger-zone[data-zone="index"]  { top: 100px; left: 60px; }
-.finger-zone[data-zone="middle"] { top: 80px;  left: 100px; }
-.finger-zone[data-zone="ring"]   { top: 90px;  left: 130px; }
-.finger-zone[data-zone="pinky"]  { top: 110px; left: 160px; }
+/* ---------- FRONT positions ---------- */
+/* Hand zones (front) */
+#hand-drop[data-side="front"] .finger-zone { width: 25px; height: 40px; }
+#hand-drop[data-side="front"] .finger-zone[data-zone="thumb"]  { top: 150px; left: 30px; }
+#hand-drop[data-side="front"] .finger-zone[data-zone="index"]  { top: 100px; left: 60px; }
+#hand-drop[data-side="front"] .finger-zone[data-zone="middle"] { top: 80px;  left: 100px; }
+#hand-drop[data-side="front"] .finger-zone[data-zone="ring"]   { top: 90px;  left: 130px; }
+#hand-drop[data-side="front"] .finger-zone[data-zone="pinky"]  { top: 110px; left: 160px; }
 
-.wrist-zone { width: 60px; height: 30px; top: 200px; left: 110px; }
+#hand-drop[data-side="front"] .wrist-zone { width: 60px; height: 30px; top: 200px; left: 110px; }
 
-/* Neck + ear zones */
-.neck-zone { width: 120px; height: 80px; top: 210px; left: 77px; }
-.ear-zone  { width: 25px;  height: 25px; top: 125px; left: 170px; }
+/* Neck zone (front) */
+#neck-drop[data-side="front"] .neck-zone { width: 120px; height: 80px; top: 210px; left: 77px; }
+
+/* Ear zone (front) */
+#ear-drop[data-side="front"] .ear-zone  { width: 25px; height: 25px; top: 125px; left: 170px; }
+
+/* ---------- BACK positions (starter values, YOU will tweak) ---------- */
+/* Hand zones (back) */
+#hand-drop[data-side="back"] .finger-zone { width: 25px; height: 40px; }
+#hand-drop[data-side="back"] .finger-zone[data-zone="thumb"]  { top: 140px; left: 45px; }
+#hand-drop[data-side="back"] .finger-zone[data-zone="index"]  { top: 95px;  left: 70px; }
+#hand-drop[data-side="back"] .finger-zone[data-zone="middle"] { top: 78px;  left: 105px; }
+#hand-drop[data-side="back"] .finger-zone[data-zone="ring"]   { top: 88px;  left: 135px; }
+#hand-drop[data-side="back"] .finger-zone[data-zone="pinky"]  { top: 110px; left: 160px; }
+
+#hand-drop[data-side="back"] .wrist-zone { width: 60px; height: 30px; top: 200px; left: 110px; }
+
+/* Neck zone (back) */
+#neck-drop[data-side="back"] .neck-zone { width: 120px; height: 80px; top: 210px; left: 77px; }
+
+/* Ear zone (back) */
+#ear-drop[data-side="back"] .ear-zone  { width: 25px; height: 25px; top: 125px; left: 55px; }
 
 /* Buttons */
 .button-container {
@@ -211,7 +264,7 @@ button {
   transition: none;
 }
 
-/* ✅ “Fit” system (JS sets --sj-rot, --sj-scale, --sj-dx, --sj-dy) */
+/* “Fit” system */
 .draggable.on-finger,
 .draggable.on-wrist,
 .draggable.on-neck,
@@ -227,7 +280,7 @@ button {
   filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.8));
 }
 
-/* Base worn sizes (you can tweak these safely) */
+/* Base worn sizes */
 .draggable.on-finger { width: 40px; }
 .draggable.on-wrist  { width: 60px; }
 .draggable.on-neck   { width: 120px; }
@@ -275,17 +328,6 @@ button {
   .draggable.on-wrist  { width: 55px; }
   .draggable.on-neck   { width: 110px; }
   .draggable.on-ear    { width: 25px; }
-
-  .finger-zone { width: 20px; height: 30px; }
-  .finger-zone[data-zone="thumb"]  { top: 120px; left: 25px; }
-  .finger-zone[data-zone="index"]  { top: 80px;  left: 50px; }
-  .finger-zone[data-zone="middle"] { top: 60px;  left: 80px; }
-  .finger-zone[data-zone="ring"]   { top: 70px;  left: 105px; }
-  .finger-zone[data-zone="pinky"]  { top: 90px;  left: 130px; }
-
-  .wrist-zone { width: 50px; height: 25px; top: 160px; left: 80px; }
-  .neck-zone  { width: 100px; height: 60px; top: 165px; left: 55px; }
-  .ear-zone   { width: 20px;  height: 20px; top: 100px; left: 125px; }
 
   h1 { font-size: 1.5rem; }
   p  { font-size: 0.9rem; }
