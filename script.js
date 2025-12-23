@@ -13,10 +13,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const neckAccessories = document.getElementById('neck-accessories');
   const earringsArea = document.getElementById('earrings-area');
 
-  // Hand rotate (rotate the SCENE so zones + jewelry stay aligned)
-  const handScene = document.getElementById('hand-scene');
-  const rotateLeftBtn = document.getElementById('rotate-left');
-  const rotateRightBtn = document.getElementById('rotate-right');
+// Hand front/back toggle
+const handToggleBtn = document.getElementById('hand-toggle');
+const HAND_FRONT = "assets/body/hand-front.png";
+const HAND_BACK  = "assets/body/hand-back.png";
+let handSide = "front";
+
+handToggleBtn.addEventListener('click', () => {
+  handSide = (handSide === "front") ? "back" : "front";
+  handImg.src = (handSide === "front") ? HAND_FRONT : HAND_BACK;
+  handToggleBtn.textContent = (handSide === "front") ? "Back" : "Front";
+});
+
   let rotation = 0;
 
   // Hamburger

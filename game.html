@@ -70,18 +70,23 @@
 
       <div class="drop-zone hand-container" id="hand-drop" data-side="front">
         <div class="drop-toolbar">
-          <span class="drop-title">Hand</span>
           <button class="side-toggle" data-target="hand-drop" type="button">Back</button>
         </div>
 
         <img
-          src="hand-front.png"
+          src="assets/body/hand-front.png" 
+          class="base-image" 
           id="hand"
           alt="Hand"
           data-front="hand-front.png"
+        />
+        <img
+          src="assets/body/hand-back.png" 
+          class="base-image" 
+          id="hand"
+          alt="Hand"
           data-back="hand-back.png"
         />
-
         <!-- FRONT zones -->
         <div class="zone-group" data-side="front">
           <div class="finger-zone" data-zone="thumb"  data-rotate="-35" data-scale="0.85"></div>
@@ -103,9 +108,11 @@
         </div>
 
         <div class="button-container">
-          <button id="rotate-left">Rotate Left</button>
-          <button id="rotate-right">Rotate Right</button>
+         <button id="rotate-left">Rotate Left</button>
+         <button id="rotate-right">Rotate Right</button>
+         <button id="hand-toggle">Back</button>
         </div>
+
       </div>
     </div>
 
@@ -122,18 +129,21 @@
 
       <div class="drop-zone neck-container" id="neck-drop" data-side="front">
         <div class="drop-toolbar">
-          <span class="drop-title">Neck</span>
           <button class="side-toggle" data-target="neck-drop" type="button">Back</button>
         </div>
 
         <img
-          src="neck-front.png"
+          src="assets/body/neck-front.png"
           id="neck"
           alt="Neck"
           data-front="neck-front.png"
+        />
+        <img
+          src="assets/body/neck-back.png"
+          id="neck"
+          alt="Neck"
           data-back="neck-back.png"
         />
-
         <div class="zone-group" data-side="front">
           <div class="neck-zone" data-zone="neck" data-rotate="0" data-scale="1.00"></div>
         </div>
@@ -157,18 +167,21 @@
 
       <div class="drop-zone ear-container" id="ear-drop" data-side="front">
         <div class="drop-toolbar">
-          <span class="drop-title">Ear</span>
           <button class="side-toggle" data-target="ear-drop" type="button">Back</button>
         </div>
 
         <img
-          src="ear-front.png"
+          src="assets/body/ear-front.png"
           id="ear"
           alt="Ear"
           data-front="ear-front.png"
+        />
+        <img
+          src="assets/body/ear-back.png"
+          id="ear"
+          alt="Ear"
           data-back="ear-back.png"
         />
-
         <div class="zone-group" data-side="front">
           <div class="ear-zone" data-zone="left-ear" data-rotate="12" data-scale="0.90"></div>
         </div>
