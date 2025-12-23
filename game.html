@@ -53,7 +53,7 @@
           <h3>Rings</h3>
           <div class="accessory-items" id="rings">
             <img src="ring5-3d.png" class="draggable" draggable="true" data-type="ring" alt="Ring 1" />
-            <img src="ringg-3d.png" class="draggable" draggable="true" data-type="ring" alt="Ring 3" />
+            <img src="ring3-3d.png" class="draggable" draggable="true" data-type="ring" alt="Ring 3" />
             <img src="ring4-3d.png" class="draggable" draggable="true" data-type="ring" alt="Ring 4" />
           </div>
         </div>
@@ -61,58 +61,40 @@
         <div class="sub-section">
           <h3>Bracelets</h3>
           <div class="accessory-items" id="bracelets">
-            <img src="bracelet1-3d.png" class="draggable" draggable="true" data-type="bracelet" alt="Bracelet 4" />
-            <img src="bracelet2-3d.png" class="draggable" draggable="true" data-type="bracelet" alt="Bracelet 5" />
-            <img src="bracelett-3d.png" class="draggable" draggable="true" data-type="bracelet" alt="Bracelet 6" />
+            <img src="bracelet1-3d.png" class="draggable" draggable="true" data-type="bracelet" alt="Bracelet 1" />
+            <img src="bracelet2-3d.png" class="draggable" draggable="true" data-type="bracelet" alt="Bracelet 2" />
+            <img src="bracelet6-3d.png" class="draggable" draggable="true" data-type="bracelet" alt="Bracelet 3" />
           </div>
         </div>
       </div>
 
-      <div class="drop-zone hand-container" id="hand-drop" data-side="front">
-        <div class="drop-toolbar">
-          <button class="side-toggle" data-target="hand-drop" type="button">Back</button>
+      <div class="drop-zone hand-container" id="hand-drop">
+        <div class="view-controls">
+          <button class="toggle-view" data-target="hand">Back</button>
         </div>
 
         <img
-          src="assets/body/hand-front.png" 
-          class="base-image" 
+          src="assets/body/hand-front.png"
+          class="base-image"
           id="hand"
           alt="Hand"
-          data-front="hand-front.png"
+          data-front="assets/body/hand-front.png"
+          data-back="assets/body/hand-back.png"
+          data-view="front"
         />
-        <img
-          src="assets/body/hand-back.png" 
-          class="base-image" 
-          id="hand"
-          alt="Hand"
-          data-back="hand-back.png"
-        />
-        <!-- FRONT zones -->
-        <div class="zone-group" data-side="front">
-          <div class="finger-zone" data-zone="thumb"  data-rotate="-35" data-scale="0.85"></div>
-          <div class="finger-zone" data-zone="index"  data-rotate="-20" data-scale="0.85"></div>
-          <div class="finger-zone" data-zone="middle" data-rotate="-10" data-scale="0.85"></div>
-          <div class="finger-zone" data-zone="ring"   data-rotate="-5"  data-scale="0.85"></div>
-          <div class="finger-zone" data-zone="pinky"  data-rotate="10"  data-scale="0.80"></div>
-          <div class="wrist-zone"  data-zone="wrist"  data-rotate="0"   data-scale="0.95"></div>
-        </div>
 
-        <!-- BACK zones (you will tweak positions in CSS) -->
-        <div class="zone-group hidden" data-side="back">
-          <div class="finger-zone" data-zone="thumb"  data-rotate="-20" data-scale="0.85"></div>
-          <div class="finger-zone" data-zone="index"  data-rotate="-10" data-scale="0.85"></div>
-          <div class="finger-zone" data-zone="middle" data-rotate="0"   data-scale="0.85"></div>
-          <div class="finger-zone" data-zone="ring"   data-rotate="5"   data-scale="0.85"></div>
-          <div class="finger-zone" data-zone="pinky"  data-rotate="10"  data-scale="0.80"></div>
-          <div class="wrist-zone"  data-zone="wrist"  data-rotate="0"   data-scale="0.95"></div>
-        </div>
+        <div class="finger-zone" data-zone="thumb"  data-rotate="-35" data-scale="0.85"></div>
+        <div class="finger-zone" data-zone="index"  data-rotate="-20" data-scale="0.85"></div>
+        <div class="finger-zone" data-zone="middle" data-rotate="-10" data-scale="0.85"></div>
+        <div class="finger-zone" data-zone="ring"   data-rotate="-5"  data-scale="0.85"></div>
+        <div class="finger-zone" data-zone="pinky"  data-rotate="10"  data-scale="0.80"></div>
+
+        <div class="wrist-zone" data-zone="wrist" data-rotate="0" data-scale="0.95"></div>
 
         <div class="button-container">
-         <button id="rotate-left">Rotate Left</button>
-         <button id="rotate-right">Rotate Right</button>
-         <button id="hand-toggle">Back</button>
+          <button id="rotate-left">Rotate Left</button>
+          <button id="rotate-right">Rotate Right</button>
         </div>
-
       </div>
     </div>
 
@@ -127,30 +109,21 @@
         </div>
       </div>
 
-      <div class="drop-zone neck-container" id="neck-drop" data-side="front">
-        <div class="drop-toolbar">
-          <button class="side-toggle" data-target="neck-drop" type="button">Back</button>
+      <div class="drop-zone neck-container" id="neck-drop">
+        <div class="view-controls">
+          <button class="toggle-view" data-target="neck">Back</button>
         </div>
 
         <img
           src="assets/body/neck-front.png"
+          class="base-image"
           id="neck"
           alt="Neck"
-          data-front="neck-front.png"
+          data-front="assets/body/neck-front.png"
+          data-back="assets/body/neck-back.png"
+          data-view="front"
         />
-        <img
-          src="assets/body/neck-back.png"
-          id="neck"
-          alt="Neck"
-          data-back="neck-back.png"
-        />
-        <div class="zone-group" data-side="front">
-          <div class="neck-zone" data-zone="neck" data-rotate="0" data-scale="1.00"></div>
-        </div>
-
-        <div class="zone-group hidden" data-side="back">
-          <div class="neck-zone" data-zone="neck" data-rotate="0" data-scale="1.00"></div>
-        </div>
+        <div class="neck-zone" data-zone="neck" data-rotate="0" data-scale="1.00"></div>
       </div>
     </div>
 
@@ -165,30 +138,21 @@
         </div>
       </div>
 
-      <div class="drop-zone ear-container" id="ear-drop" data-side="front">
-        <div class="drop-toolbar">
-          <button class="side-toggle" data-target="ear-drop" type="button">Back</button>
+      <div class="drop-zone ear-container" id="ear-drop">
+        <div class="view-controls">
+          <button class="toggle-view" data-target="ear">Back</button>
         </div>
 
         <img
           src="assets/body/ear-front.png"
+          class="base-image"
           id="ear"
           alt="Ear"
-          data-front="ear-front.png"
+          data-front="assets/body/ear-front.png"
+          data-back="assets/body/ear-back.png"
+          data-view="front"
         />
-        <img
-          src="assets/body/ear-back.png"
-          id="ear"
-          alt="Ear"
-          data-back="ear-back.png"
-        />
-        <div class="zone-group" data-side="front">
-          <div class="ear-zone" data-zone="left-ear" data-rotate="12" data-scale="0.90"></div>
-        </div>
-
-        <div class="zone-group hidden" data-side="back">
-          <div class="ear-zone" data-zone="right-ear" data-rotate="-12" data-scale="0.90"></div>
-        </div>
+        <div class="ear-zone" data-zone="left-ear" data-rotate="12" data-scale="0.90"></div>
       </div>
     </div>
 
@@ -213,4 +177,3 @@
   <script src="script.js"></script>
 </body>
 </html>
-

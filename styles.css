@@ -334,3 +334,15 @@ button {
   .accessory-section h2 { font-size: 1rem; }
   .sub-section h3 { font-size: 0.9rem; }
 }
+.view-controls{
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 40;
+}
+
+.view-controls .toggle-view{
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-weight: 700;
+}
