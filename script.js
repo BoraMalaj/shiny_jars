@@ -1,292 +1,306 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const draggables = document.querySelectorAll('.draggable');
+document.addEventListener("DOMContentLoaded", () => {
+  const draggables = document.querySelectorAll(".draggable");
 
   // Zones
-  const fingerZones = document.querySelectorAll('.finger-zone');
-  const wristZone = document.querySelector('.wrist-zone');
-  const neckZone = document.querySelector('.neck-zone');
-  const earZone = document.querySelector('.ear-zone');
+  const fingerZones = document.querySelectorAll(".finger-zone");
+  const wristZone = document.querySelector(".wrist-zone");
+  const neckZone = document.querySelector(".neck-zone");
+  const earZone = document.querySelector(".ear-zone");
 
-  // Stages (rotate/toggle should affect stage, not only image)
-  const handStage = document.getElementById('hand-stage');
-  const neckStage = document.getElementById('neck-stage');
-  const earStage  = document.getElementById('ear-stage');
+  // Trays (return areas)
+  const rings = document.getElementById("rings");
+  const bracelets = document.getElementById("bracelets");
+  const neckAccessories = document.getElementById("neck-accessories");
+  const earringsArea = document.getElementById("earrings-area");
 
-  const handImg = document.getElementById('hand-img');
-  const neckImg = document.getElementById('neck-img');
-  const earImg  = document.getElementById('ear-img');
+  // Containers (drop-zone wrappers that hold the base image + zones)
+  const handContainer = document.querySelector(".hand-container");
+  const neckContainer = document.querySelector(".neck-container");
+  const earContainer = document.querySelector(".ear-container");
 
-  // Return trays
-  const rings = document.getElementById('rings');
-  const bracelets = document.getElementById('bracelets');
-  const neckAccessories = document.getElementById('neck-accessories');
-  const earringsArea = document.getElementById('earrings-area');
-
-  // Buttons
-  const rotateLeftBtn = document.getElementById('hand-rotate-left');
-  const rotateRightBtn = document.getElementById('hand-rotate-right');
-  const handToggleBtn = document.getElementById('hand-toggle');
-  const neckToggleBtn = document.getElementById('neck-toggle');
-  const earToggleBtn  = document.getElementById('ear-toggle');
-
+  // Rotate buttons
+  const rotateLeftBtn = document.getElementById("rotate-left");
+  const rotateRightBtn = document.getElementById("rotate-right");
   let rotation = 0;
 
-  // Hamburger
-  const hamburger = document.querySelector('.hamburger');
-  const mainMenu = document.querySelector('.main-menu');
-  hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('active');
-    mainMenu.classList.toggle('active');
+  // Hamburger menu
+  const hamburger = document.querySelector(".hamburger");
+  const mainMenu = document.querySelector(".main-menu");
+
+  hamburger?.addEventListener("click", () => {
+    hamburger.classList.toggle("active");
+    mainMenu.classList.toggle("active");
   });
-  document.querySelectorAll('.main-menu a').forEach(link => {
-    link.addEventListener('click', () => {
-      hamburger.classList.remove('active');
-      mainMenu.classList.remove('active');
+
+  document.querySelectorAll(".main-menu a").forEach((link) => {
+    link.addEventListener("click", () => {
+      hamburger.classList.remove("active");
+      mainMenu.classList.remove("active");
     });
   });
 
+  // -----------------------------
   // Helpers
-  const clearWearState = (el) => {
-    el.classList.remove('on-finger', 'on-wrist', 'on-neck', 'on-ear');
-    el.style.position = '';
-    el.style.left = '';
-    el.style.top = '';
-    el.style.zIndex = '';
-    el.style.removeProperty('--sj-rot');
-    el.style.removeProperty('--sj-scale');
-    el.style.removeProperty('--sj-dx');
-    el.style.removeProperty('--sj-dy');
-  };
-
-  const setFitVarsFromZone = (el, zone) => {
-    const rot = zone?.dataset?.rotate ?? '0';
-    const scale = zone?.dataset?.scale ?? '1';
-
-    el.style.setProperty('--sj-rot', `${rot}deg`);
-    el.style.setProperty('--sj-scale', `${scale}`);
-
-    const type = el.dataset.type || '';
-    let dx = 0, dy = 0;
-
-    if (type === 'earring') { dx = -4; dy = 4; }
-    if (type === 'necklace') { dx = 0; dy = 10; }
-    if (type === 'ring') { dx = 0; dy = 2; }
-    if (type === 'bracelet') { dx = 0; dy = 6; }
-
-    el.style.setProperty('--sj-dx', `${dx}px`);
-    el.style.setProperty('--sj-dy', `${dy}px`);
-  };
-
-  // IMPORTANT: compute zone center relative to the STAGE (not drop-zone),
-  // so rotation affects jewelry + zones together.
-  const getZoneCenterInStage = (zone, stage) => {
-    const z = zone.getBoundingClientRect();
-    const s = stage.getBoundingClientRect();
-    const x = (z.left + z.right) / 2 - s.left;
-    const y = (z.top + z.bottom) / 2 - s.top;
-    return { x, y };
-  };
-
-  const placeOnZone = (draggable, zone, stage, wearClass) => {
-    stage.appendChild(draggable);
-
-    const { x, y } = getZoneCenterInStage(zone, stage);
-
-    clearWearState(draggable);
-    draggable.classList.add(wearClass);
-
-    draggable.style.position = 'absolute';
-    draggable.style.left = `${x}px`;
-    draggable.style.top = `${y}px`;
-    draggable.style.zIndex = '30';
-
-    setFitVarsFromZone(draggable, zone);
+  // -----------------------------
+  const clearAccessoryState = (el) => {
+    el.classList.remove("on-finger", "on-wrist", "on-neck", "on-ear");
+    el.style.left = "";
+    el.style.top = "";
+    el.style.position = "";
+    el.style.zIndex = "";
   };
 
   const returnToTray = (draggable, tray) => {
     tray.appendChild(draggable);
-    draggable.classList.remove('dragging', 'is-floating');
-    clearWearState(draggable);
-    draggable.style.position = 'static';
-    draggable.style.left = '';
-    draggable.style.top = '';
+    draggable.classList.remove("dragging");
+    clearAccessoryState(draggable);
+    draggable.style.position = "static";
+    draggable.style.transform = "none";
   };
 
-  // Desktop drag (NO transparent.png needed)
-  draggables.forEach(draggable => {
-    draggable.addEventListener('dragstart', (e) => {
-      draggable.classList.add('dragging');
-      e.dataTransfer.setData('text/plain', 'drag');
-      e.dataTransfer.effectAllowed = 'move';
-    });
+  // Get the center of a zone, but relative to the container (hand/neck/ear)
+  const getZoneCenterRelativeToContainer = (zone, container) => {
+    const z = zone.getBoundingClientRect();
+    const c = container.getBoundingClientRect();
 
-    draggable.addEventListener('dragend', () => {
-      draggable.classList.remove('dragging');
-    });
-  });
+    const centerX = (z.left + z.right) / 2 - c.left;
+    const centerY = (z.top + z.bottom) / 2 - c.top;
 
-  const enableDrop = (el) => {
-    el.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      e.dataTransfer.dropEffect = 'move';
-    });
+    return { x: centerX, y: centerY };
   };
 
-  // Drop handlers
-  fingerZones.forEach(zone => {
-    enableDrop(zone);
-    zone.addEventListener('drop', (e) => {
-      e.preventDefault();
-      const draggable = document.querySelector('.draggable.dragging');
-      if (!draggable) return;
-      placeOnZone(draggable, zone, handStage, 'on-finger');
-    });
-  });
+  // Snap jewelry perfectly onto the body part
+  const placeOnBody = (draggable, zone, container, className) => {
+    // IMPORTANT: append to the container, NOT inside the zone
+    container.appendChild(draggable);
 
-  enableDrop(wristZone);
-  wristZone.addEventListener('drop', (e) => {
-    e.preventDefault();
-    const draggable = document.querySelector('.draggable.dragging');
-    if (!draggable) return;
-    placeOnZone(draggable, wristZone, handStage, 'on-wrist');
-  });
+    const { x, y } = getZoneCenterRelativeToContainer(zone, container);
 
-  enableDrop(neckZone);
-  neckZone.addEventListener('drop', (e) => {
-    e.preventDefault();
-    const draggable = document.querySelector('.draggable.dragging');
-    if (!draggable) return;
-    placeOnZone(draggable, neckZone, neckStage, 'on-neck');
-  });
+    draggable.classList.remove("dragging");
+    draggable.classList.remove("on-finger", "on-wrist", "on-neck", "on-ear");
+    draggable.classList.add(className);
 
-  enableDrop(earZone);
-  earZone.addEventListener('drop', (e) => {
-    e.preventDefault();
-    const draggable = document.querySelector('.draggable.dragging');
-    if (!draggable) return;
-    placeOnZone(draggable, earZone, earStage, 'on-ear');
-  });
+    draggable.style.position = "absolute";
+    draggable.style.left = `${x}px`;
+    draggable.style.top = `${y}px`;
+    draggable.style.zIndex = "25";
 
-  // Return trays
-  [rings, bracelets, neckAccessories, earringsArea].forEach(tray => {
-    enableDrop(tray);
-    tray.addEventListener('drop', (e) => {
-      e.preventDefault();
-      const draggable = document.querySelector('.draggable.dragging');
-      if (!draggable) return;
-      returnToTray(draggable, tray);
-    });
-  });
+    // Let CSS class control rotate/scale via transform.
+    // If inline transform remains from mobile dragging, clear it:
+    draggable.style.transform = "";
+  };
 
-  // Mobile touch drag (disable transforms while dragging)
-  let active = null;
-  let offsetX = 0;
-  let offsetY = 0;
+  const isTray = (el) => {
+    return (
+      el === rings ||
+      el === bracelets ||
+      el === neckAccessories ||
+      el === earringsArea
+    );
+  };
 
-  window.addEventListener('touchmove', (e) => {
-    if (active) e.preventDefault();
-  }, { passive: false });
-
-  const getValidTarget = (node) => {
+  const findValidDropTarget = (node) => {
+    if (!node) return null;
+    // Walk up the DOM until we find a zone or tray
     let cur = node;
     while (cur && cur !== document.body) {
       if (
-        cur.classList?.contains('finger-zone') ||
-        cur.classList?.contains('wrist-zone') ||
-        cur.classList?.contains('neck-zone') ||
-        cur.classList?.contains('ear-zone') ||
-        cur === rings || cur === bracelets || cur === neckAccessories || cur === earringsArea
-      ) return cur;
+        cur.classList?.contains("finger-zone") ||
+        cur.classList?.contains("wrist-zone") ||
+        cur.classList?.contains("neck-zone") ||
+        cur.classList?.contains("ear-zone") ||
+        isTray(cur)
+      ) {
+        return cur;
+      }
       cur = cur.parentElement;
     }
     return null;
   };
 
-  draggables.forEach(draggable => {
-    draggable.addEventListener('touchstart', (e) => {
-      const t = e.touches[0];
-      active = draggable;
+  // -----------------------------
+  // Desktop drag & drop
+  // -----------------------------
+  draggables.forEach((draggable) => {
+    draggable.addEventListener("dragstart", (e) => {
+      draggable.classList.add("dragging");
+      // Needed for Firefox / some browsers
+      e.dataTransfer.setData("text/plain", "drag");
 
-      // while dragging: remove transform effects so it follows finger
-      active.classList.add('dragging', 'is-floating');
+      // Hide default ghost image
+      const transparentImage = new Image();
+      transparentImage.src = "transparent.png";
+      e.dataTransfer.setDragImage(transparentImage, 0, 0);
+    });
 
-      const r = active.getBoundingClientRect();
-      offsetX = t.clientX - r.left;
-      offsetY = t.clientY - r.top;
-
-      active.style.position = 'fixed';
-      active.style.left = `${t.clientX - offsetX}px`;
-      active.style.top = `${t.clientY - offsetY}px`;
-      active.style.zIndex = '1000';
-    }, { passive: false });
-
-    draggable.addEventListener('touchmove', (e) => {
-      if (!active) return;
-      const t = e.touches[0];
-      active.style.left = `${t.clientX - offsetX}px`;
-      active.style.top = `${t.clientY - offsetY}px`;
-    }, { passive: false });
-
-    draggable.addEventListener('touchend', (e) => {
-      if (!active) return;
-
-      const t = e.changedTouches[0];
-      const raw = document.elementFromPoint(t.clientX, t.clientY);
-      const target = getValidTarget(raw);
-
-      if (target?.classList?.contains('finger-zone')) {
-        placeOnZone(active, target, handStage, 'on-finger');
-      } else if (target?.classList?.contains('wrist-zone')) {
-        placeOnZone(active, wristZone, handStage, 'on-wrist');
-      } else if (target?.classList?.contains('neck-zone')) {
-        placeOnZone(active, neckZone, neckStage, 'on-neck');
-      } else if (target?.classList?.contains('ear-zone')) {
-        placeOnZone(active, earZone, earStage, 'on-ear');
-      } else if (target === rings || target === bracelets || target === neckAccessories || target === earringsArea) {
-        returnToTray(active, target);
-      } else {
-        const type = active.dataset.type;
-        if (type === 'ring') returnToTray(active, rings);
-        else if (type === 'bracelet') returnToTray(active, bracelets);
-        else if (type === 'necklace') returnToTray(active, neckAccessories);
-        else if (type === 'earring') returnToTray(active, earringsArea);
-        else returnToTray(active, rings);
-      }
-
-      active.classList.remove('dragging', 'is-floating');
-      active.style.position = '';
-      active.style.zIndex = '';
-      active = null;
-    }, { passive: false });
+    draggable.addEventListener("dragend", () => {
+      draggable.classList.remove("dragging");
+    });
   });
 
-  // Rotate stage (correct: zones + jewelry + image rotate together)
-  rotateLeftBtn.addEventListener('click', () => {
-    rotation -= 15;
-    handStage.style.transform = `rotate(${rotation}deg)`;
-  });
-
-  rotateRightBtn.addEventListener('click', () => {
-    rotation += 15;
-    handStage.style.transform = `rotate(${rotation}deg)`;
-  });
-
-  // Front/Back toggle (logic fixed + button text changes)
-  const toggleStage = (stageEl, imgEl, btnEl) => {
-    const front = stageEl.dataset.front;
-    const back = stageEl.dataset.back;
-    const view = stageEl.dataset.view || 'front';
-
-    const nextView = view === 'front' ? 'back' : 'front';
-    stageEl.dataset.view = nextView;
-
-    imgEl.src = nextView === 'front' ? front : back;
-    btnEl.textContent = nextView === 'front' ? 'Back' : 'Front';
+  // allow drop
+  const enableDrop = (el) => {
+    el.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = "move";
+    });
   };
 
-  handToggleBtn.addEventListener('click', () => toggleStage(handStage, handImg, handToggleBtn));
-  neckToggleBtn.addEventListener('click', () => toggleStage(neckStage, neckImg, neckToggleBtn));
-  earToggleBtn.addEventListener('click', () => toggleStage(earStage, earImg, earToggleBtn));
+  // Hand zones -> snap to handContainer
+  fingerZones.forEach((zone) => {
+    enableDrop(zone);
+    zone.addEventListener("drop", (e) => {
+      e.preventDefault();
+      const draggable = document.querySelector(".draggable.dragging");
+      if (!draggable) return;
+      placeOnBody(draggable, zone, handContainer, "on-finger");
+    });
+  });
+
+  enableDrop(wristZone);
+  wristZone.addEventListener("drop", (e) => {
+    e.preventDefault();
+    const draggable = document.querySelector(".draggable.dragging");
+    if (!draggable) return;
+    placeOnBody(draggable, wristZone, handContainer, "on-wrist");
+  });
+
+  enableDrop(neckZone);
+  neckZone.addEventListener("drop", (e) => {
+    e.preventDefault();
+    const draggable = document.querySelector(".draggable.dragging");
+    if (!draggable) return;
+    placeOnBody(draggable, neckZone, neckContainer, "on-neck");
+  });
+
+  enableDrop(earZone);
+  earZone.addEventListener("drop", (e) => {
+    e.preventDefault();
+    const draggable = document.querySelector(".draggable.dragging");
+    if (!draggable) return;
+    placeOnBody(draggable, earZone, earContainer, "on-ear");
+  });
+
+  // Return trays
+  [rings, bracelets, neckAccessories, earringsArea].forEach((tray) => {
+    enableDrop(tray);
+    tray.addEventListener("drop", (e) => {
+      e.preventDefault();
+      const draggable = document.querySelector(".draggable.dragging");
+      if (!draggable) return;
+      returnToTray(draggable, tray);
+    });
+  });
+
+  // -----------------------------
+  // Mobile touch drag (snap logic)
+  // -----------------------------
+  let active = null;
+  let touchOffsetX = 0;
+  let touchOffsetY = 0;
+
+  // Prevent page scrolling during drag
+  window.addEventListener(
+    "touchmove",
+    (e) => {
+      if (active) e.preventDefault();
+    },
+    { passive: false }
+  );
+
+  draggables.forEach((draggable) => {
+    draggable.addEventListener(
+      "touchstart",
+      (e) => {
+        const touch = e.touches[0];
+        active = draggable;
+        active.classList.add("dragging");
+
+        const rect = active.getBoundingClientRect();
+        touchOffsetX = touch.clientX - rect.left;
+        touchOffsetY = touch.clientY - rect.top;
+
+        // Use fixed position while dragging for accurate movement
+        active.style.position = "fixed";
+        active.style.left = `${touch.clientX - touchOffsetX}px`;
+        active.style.top = `${touch.clientY - touchOffsetY}px`;
+        active.style.zIndex = "1000";
+      },
+      { passive: false }
+    );
+
+    draggable.addEventListener(
+      "touchmove",
+      (e) => {
+        if (!active) return;
+        const touch = e.touches[0];
+        active.style.left = `${touch.clientX - touchOffsetX}px`;
+        active.style.top = `${touch.clientY - touchOffsetY}px`;
+      },
+      { passive: false }
+    );
+
+    draggable.addEventListener(
+      "touchend",
+      (e) => {
+        if (!active) return;
+
+        const touch = e.changedTouches[0];
+        const rawTarget = document.elementFromPoint(touch.clientX, touch.clientY);
+        const target = findValidDropTarget(rawTarget);
+
+        // If dropped on a zone -> snap perfectly
+        if (target?.classList?.contains("finger-zone")) {
+          placeOnBody(active, target, handContainer, "on-finger");
+        } else if (target?.classList?.contains("wrist-zone")) {
+          placeOnBody(active, target, handContainer, "on-wrist");
+        } else if (target?.classList?.contains("neck-zone")) {
+          placeOnBody(active, target, neckContainer, "on-neck");
+        } else if (target?.classList?.contains("ear-zone")) {
+          placeOnBody(active, target, earContainer, "on-ear");
+        }
+        // If dropped on a tray -> return
+        else if (isTray(target)) {
+          returnToTray(active, target);
+        }
+        // Otherwise: return to its original tray (best effort)
+        else {
+          const originalContainer =
+            active.closest("#rings") ||
+            active.closest("#bracelets") ||
+            active.closest("#neck-accessories") ||
+            active.closest("#earrings-area");
+
+          if (originalContainer) returnToTray(active, originalContainer);
+          else {
+            // fallback: return to rings
+            returnToTray(active, rings);
+          }
+        }
+
+        active = null;
+      },
+      { passive: false }
+    );
+  });
+
+  // -----------------------------
+  // Rotate (rotate the whole hand container so jewelry rotates too)
+  // -----------------------------
+  const applyHandRotation = () => {
+    handContainer.style.transform = `rotate(${rotation}deg)`;
+    handContainer.style.transformOrigin = "center center";
+  };
+
+  rotateLeftBtn?.addEventListener("click", () => {
+    rotation -= 15;
+    applyHandRotation();
+  });
+
+  rotateRightBtn?.addEventListener("click", () => {
+    rotation += 15;
+    applyHandRotation();
+  });
 });
 
 
