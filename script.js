@@ -7,62 +7,41 @@ document.addEventListener('DOMContentLoaded', () => {
   const neckZone = document.querySelector('.neck-zone');
   const earZone = document.querySelector('.ear-zone');
 
+  // Stages (rotate/toggle should affect stage, not only image)
+  const handStage = document.getElementById('hand-stage');
+  const neckStage = document.getElementById('neck-stage');
+  const earStage  = document.getElementById('ear-stage');
+
+  const handImg = document.getElementById('hand-img');
+  const neckImg = document.getElementById('neck-img');
+  const earImg  = document.getElementById('ear-img');
+
   // Return trays
   const rings = document.getElementById('rings');
   const bracelets = document.getElementById('bracelets');
   const neckAccessories = document.getElementById('neck-accessories');
   const earringsArea = document.getElementById('earrings-area');
 
-  // Base hand image + rotate buttons
-  const handImg = document.getElementById('hand');
-  const rotateLeftBtn = document.getElementById('rotate-left');
-  const rotateRightBtn = document.getElementById('rotate-right');
+  // Buttons
+  const rotateLeftBtn = document.getElementById('hand-rotate-left');
+  const rotateRightBtn = document.getElementById('hand-rotate-right');
+  const handToggleBtn = document.getElementById('hand-toggle');
+  const neckToggleBtn = document.getElementById('neck-toggle');
+  const earToggleBtn  = document.getElementById('ear-toggle');
+
   let rotation = 0;
 
-  // Hamburger Menu
+  // Hamburger
   const hamburger = document.querySelector('.hamburger');
   const mainMenu = document.querySelector('.main-menu');
-
   hamburger.addEventListener('click', () => {
     hamburger.classList.toggle('active');
     mainMenu.classList.toggle('active');
   });
-
   document.querySelectorAll('.main-menu a').forEach(link => {
     link.addEventListener('click', () => {
       hamburger.classList.remove('active');
       mainMenu.classList.remove('active');
-    });
-  });
-
-  // ---- FRONT/BACK TOGGLE LOGIC ----
-  const applyHandRotation = () => {
-    // Keep Beni behavior: rotate only the hand image element
-    handImg.style.transform = `rotate(${rotation}deg)`;
-  };
-
-  const setView = (imgEl, view) => {
-    const front = imgEl.dataset.front;
-    const back = imgEl.dataset.back;
-    imgEl.dataset.view = view;
-    imgEl.src = (view === 'front') ? front : back;
-
-    // If switching hand, re-apply rotation so it doesn't reset
-    if (imgEl.id === 'hand') applyHandRotation();
-  };
-
-  document.querySelectorAll('.toggle-view').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const id = btn.dataset.target;
-      const imgEl = document.getElementById(id);
-      if (!imgEl) return;
-
-      const current = imgEl.dataset.view || 'front';
-      const next = (current === 'front') ? 'back' : 'front';
-      setView(imgEl, next);
-
-      // Button label shows the action (what you'll switch TO)
-      btn.textContent = (next === 'front') ? 'Back' : 'Front';
     });
   });
 
@@ -98,18 +77,20 @@ document.addEventListener('DOMContentLoaded', () => {
     el.style.setProperty('--sj-dy', `${dy}px`);
   };
 
-  const getZoneCenterInDropZone = (zone, dropZone) => {
+  // IMPORTANT: compute zone center relative to the STAGE (not drop-zone),
+  // so rotation affects jewelry + zones together.
+  const getZoneCenterInStage = (zone, stage) => {
     const z = zone.getBoundingClientRect();
-    const d = dropZone.getBoundingClientRect();
-    const x = (z.left + z.right) / 2 - d.left;
-    const y = (z.top + z.bottom) / 2 - d.top;
+    const s = stage.getBoundingClientRect();
+    const x = (z.left + z.right) / 2 - s.left;
+    const y = (z.top + z.bottom) / 2 - s.top;
     return { x, y };
   };
 
-  const placeOnZone = (draggable, zone, dropZone, wearClass) => {
-    dropZone.appendChild(draggable);
+  const placeOnZone = (draggable, zone, stage, wearClass) => {
+    stage.appendChild(draggable);
 
-    const { x, y } = getZoneCenterInDropZone(zone, dropZone);
+    const { x, y } = getZoneCenterInStage(zone, stage);
 
     clearWearState(draggable);
     draggable.classList.add(wearClass);
@@ -124,25 +105,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const returnToTray = (draggable, tray) => {
     tray.appendChild(draggable);
-    draggable.classList.remove('dragging');
+    draggable.classList.remove('dragging', 'is-floating');
     clearWearState(draggable);
     draggable.style.position = 'static';
-    draggable.style.transform = 'none';
+    draggable.style.left = '';
+    draggable.style.top = '';
   };
 
-  // ---- Desktop drag ----
-  // Use an inline 1x1 transparent PNG (NO FILE NEEDED)
-  const transparentDataUrl =
-    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8DwHwAFgwJ/lhJp9QAAAABJRU5ErkJggg==';
-
+  // Desktop drag (NO transparent.png needed)
   draggables.forEach(draggable => {
     draggable.addEventListener('dragstart', (e) => {
       draggable.classList.add('dragging');
-      e.dataTransfer.setData('text/plain', '');
-
-      const img = new Image();
-      img.src = transparentDataUrl;
-      e.dataTransfer.setDragImage(img, 0, 0);
+      e.dataTransfer.setData('text/plain', 'drag');
+      e.dataTransfer.effectAllowed = 'move';
     });
 
     draggable.addEventListener('dragend', () => {
@@ -164,9 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       const draggable = document.querySelector('.draggable.dragging');
       if (!draggable) return;
-
-      const handDrop = document.getElementById('hand-drop');
-      placeOnZone(draggable, zone, handDrop, 'on-finger');
+      placeOnZone(draggable, zone, handStage, 'on-finger');
     });
   });
 
@@ -175,9 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
     const draggable = document.querySelector('.draggable.dragging');
     if (!draggable) return;
-
-    const handDrop = document.getElementById('hand-drop');
-    placeOnZone(draggable, wristZone, handDrop, 'on-wrist');
+    placeOnZone(draggable, wristZone, handStage, 'on-wrist');
   });
 
   enableDrop(neckZone);
@@ -185,9 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
     const draggable = document.querySelector('.draggable.dragging');
     if (!draggable) return;
-
-    const neckDrop = document.getElementById('neck-drop');
-    placeOnZone(draggable, neckZone, neckDrop, 'on-neck');
+    placeOnZone(draggable, neckZone, neckStage, 'on-neck');
   });
 
   enableDrop(earZone);
@@ -195,9 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
     const draggable = document.querySelector('.draggable.dragging');
     if (!draggable) return;
-
-    const earDrop = document.getElementById('ear-drop');
-    placeOnZone(draggable, earZone, earDrop, 'on-ear');
+    placeOnZone(draggable, earZone, earStage, 'on-ear');
   });
 
   // Return trays
@@ -211,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // ---- Mobile touch ----
+  // Mobile touch drag (disable transforms while dragging)
   let active = null;
   let offsetX = 0;
   let offsetY = 0;
@@ -239,7 +206,9 @@ document.addEventListener('DOMContentLoaded', () => {
     draggable.addEventListener('touchstart', (e) => {
       const t = e.touches[0];
       active = draggable;
-      active.classList.add('dragging');
+
+      // while dragging: remove transform effects so it follows finger
+      active.classList.add('dragging', 'is-floating');
 
       const r = active.getBoundingClientRect();
       offsetX = t.clientX - r.left;
@@ -265,18 +234,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const raw = document.elementFromPoint(t.clientX, t.clientY);
       const target = getValidTarget(raw);
 
-      const handDrop = document.getElementById('hand-drop');
-      const neckDrop = document.getElementById('neck-drop');
-      const earDrop  = document.getElementById('ear-drop');
-
       if (target?.classList?.contains('finger-zone')) {
-        placeOnZone(active, target, handDrop, 'on-finger');
+        placeOnZone(active, target, handStage, 'on-finger');
       } else if (target?.classList?.contains('wrist-zone')) {
-        placeOnZone(active, wristZone, handDrop, 'on-wrist');
+        placeOnZone(active, wristZone, handStage, 'on-wrist');
       } else if (target?.classList?.contains('neck-zone')) {
-        placeOnZone(active, neckZone, neckDrop, 'on-neck');
+        placeOnZone(active, neckZone, neckStage, 'on-neck');
       } else if (target?.classList?.contains('ear-zone')) {
-        placeOnZone(active, earZone, earDrop, 'on-ear');
+        placeOnZone(active, earZone, earStage, 'on-ear');
       } else if (target === rings || target === bracelets || target === neckAccessories || target === earringsArea) {
         returnToTray(active, target);
       } else {
@@ -288,20 +253,40 @@ document.addEventListener('DOMContentLoaded', () => {
         else returnToTray(active, rings);
       }
 
+      active.classList.remove('dragging', 'is-floating');
+      active.style.position = '';
+      active.style.zIndex = '';
       active = null;
     }, { passive: false });
   });
 
-  // Rotate buttons
+  // Rotate stage (correct: zones + jewelry + image rotate together)
   rotateLeftBtn.addEventListener('click', () => {
     rotation -= 15;
-    applyHandRotation();
+    handStage.style.transform = `rotate(${rotation}deg)`;
   });
 
   rotateRightBtn.addEventListener('click', () => {
     rotation += 15;
-    applyHandRotation();
+    handStage.style.transform = `rotate(${rotation}deg)`;
   });
+
+  // Front/Back toggle (logic fixed + button text changes)
+  const toggleStage = (stageEl, imgEl, btnEl) => {
+    const front = stageEl.dataset.front;
+    const back = stageEl.dataset.back;
+    const view = stageEl.dataset.view || 'front';
+
+    const nextView = view === 'front' ? 'back' : 'front';
+    stageEl.dataset.view = nextView;
+
+    imgEl.src = nextView === 'front' ? front : back;
+    btnEl.textContent = nextView === 'front' ? 'Back' : 'Front';
+  };
+
+  handToggleBtn.addEventListener('click', () => toggleStage(handStage, handImg, handToggleBtn));
+  neckToggleBtn.addEventListener('click', () => toggleStage(neckStage, neckImg, neckToggleBtn));
+  earToggleBtn.addEventListener('click', () => toggleStage(earStage, earImg, earToggleBtn));
 });
 
 
