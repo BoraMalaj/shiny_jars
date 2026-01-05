@@ -1,376 +1,294 @@
-body {
-  font-family: Arial, sans-serif;
-  text-align: center;
-  background-color: #1a1a1a;
-  color: #e0e0e0;
-  margin: 0;
-  padding: 10px;
-}
+body { 
+font-family: Arial, 
+sans-serif; 
+text-align: center; 
+background-color: #1a1a1a; 
+color: #e0e0e0; 
+margin: 0; 
+padding: 10px; 
+} 
 
-h1 { color: #ffd700; font-size: 2rem; }
-p  { font-size: 1rem; }
+h1 { color: #ffd700; font-size: 2rem; } 
+p { font-size: 1rem; } 
 
-.hint{
-  max-width: 1000px;
-  margin: 10px auto 0;
-  padding: 10px 12px;
-  background: rgba(255,215,0,0.08);
-  border: 1px solid rgba(255,215,0,0.25);
-  border-radius: 10px;
-  font-size: 0.9rem;
-  line-height: 1.4;
-}
+/* Header */ 
+.site-header { 
+background-color: #2a2a2a; 
+padding: 10px 20px; 
+position: sticky; 
+top: 0; 
+z-index: 100; 
+box-shadow: 0 2px 5px rgba(0,0,0,0.5); 
+} 
 
-.kbd{
-  display:inline-block;
-  padding: 2px 6px;
-  margin: 0 2px;
-  border-radius: 6px;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.15);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-  font-size: 0.85em;
-}
+.header-container { 
+display: flex; 
+justify-content: space-between; 
+align-items: center; 
+max-width: 1000px; 
+margin: 0 auto; 
+} 
 
-/* Header */
-.site-header {
-  background-color: #2a2a2a;
-  padding: 10px 20px;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.5);
-}
+.logo-image { height: 50px; width: auto; } 
 
-.header-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 1000px;
-  margin: 0 auto;
-}
+.hamburger { 
+display: none; 
+background: none; 
+border: none; 
+cursor: pointer; 
+padding: 10px; 
+} 
 
-.logo-image { height: 50px; width: auto; }
+.bar { 
+display: block; 
+width: 25px; 
+height: 3px; 
+background-color: #ffd700; 
+margin: 5px 0; 
+transition: all 0.3s ease; 
+} 
 
-.hamburger {
-  display: none;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 10px;
-}
+.main-menu { display: flex; } 
+.main-menu ul { 
+list-style: none; 
+margin: 0; 
+padding: 0; 
+display: flex; 
+gap: 20px; 
+} 
+.main-menu a { 
+color: #e0e0e0; 
+text-decoration: none; 
+font-size: 1rem; 
+transition: color 0.3s ease; 
+} 
+.main-menu a:hover { color: #ffd700; } 
 
-.bar {
-  display: block;
-  width: 25px;
-  height: 3px;
-  background-color: #ffd700;
-  margin: 5px 0;
-  transition: all 0.3s ease;
-}
+/* Footer */ 
+.site-footer { 
+background-color: #2a2a2a; 
+padding: 20px; 
+text-align: center; 
+color: #e0e0e0; 
+} 
+.footer-content p { margin: 5px 0; } 
+.social-links { 
+display: flex; 
+justify-content: center; 
+gap: 15px; 
+margin-bottom: 10px; 
+} 
 
-.main-menu { display: flex; }
-.main-menu ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  gap: 20px;
-}
-.main-menu a {
-  color: #e0e0e0;
-  text-decoration: none;
-  font-size: 1rem;
-  transition: color 0.3s ease;
-}
-.main-menu a:hover { color: #ffd700; }
+.social-icon { 
+width: 30px; 
+height: 30px; 
+transition: transform 0.3s ease; 
+} 
+.social-icon:hover { transform: scale(1.1); } 
 
-/* Footer */
-.site-footer {
-  background-color: #2a2a2a;
-  padding: 20px;
-  text-align: center;
-  color: #e0e0e0;
-}
-.footer-content p { margin: 5px 0; }
-.social-links {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-bottom: 10px;
-}
-.social-icon {
-  width: 30px;
-  height: 30px;
-  transition: transform 0.3s ease;
-}
-.social-icon:hover { transform: scale(1.1); }
+/* Draggable (don’t kill desktop drag) */ 
+.draggable { 
+-webkit-touch-callout: none; 
+user-select: none; 
+} 
 
-/* Draggable basic */
-.draggable {
-  -webkit-touch-callout: none;
-  user-select: none;
-}
+/* Layout */ 
+.container { 
+display: flex; 
+flex-direction: column; 
+margin: 20px auto; 
+max-width: 1000px; 
+} 
 
-/* Layout */
-.container {
-  display: flex;
-  flex-direction: column;
-  margin: 20px auto;
-  max-width: 1000px;
-}
+.section-pair { 
+display: flex; 
+justify-content: space-around; 
+margin-bottom: 20px; 
+gap: 20px; 
+} 
 
-.section-pair {
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 20px;
-  gap: 20px;
-}
+.accessory-section, .drop-zone { width: 45%; padding: 20px; } 
 
-.accessory-section, .drop-zone { width: 45%; padding: 20px; }
+.accessory-section { 
+border: 2px dashed #444; 
+background-color: #2a2a2a; 
+border-radius: 8px; 
+display: flex; 
+flex-direction: column; 
+justify-content: center; 
+min-height: 400px; 
+} 
 
-.accessory-section {
-  border: 2px dashed #444;
-  background-color: #2a2a2a;
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-height: 400px;
-}
+.accessory-section h2 { 
+color: #ffd700; 
+font-size: 1.2rem; 
+margin: 0 0 10px; 
+} 
 
-.accessory-section h2 {
-  color: #ffd700;
-  font-size: 1.2rem;
-  margin: 0 0 10px;
-}
+.sub-section { margin-bottom: 10px; } 
+.sub-section h3 { color: #e0e0e0; font-size: 1rem; margin: 5px 0; } 
 
-.sub-section { margin-bottom: 10px; }
-.sub-section h3 { color: #e0e0e0; font-size: 1rem; margin: 5px 0; }
+.accessory-items { 
+display: flex; 
+flex-wrap: wrap; 
+gap: 10px; 
+justify-content: center; 
+} 
 
-.accessory-items {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-}
+/* Drop zone frame */ 
+.drop-zone { 
+position: relative; 
+width: 250px; 
+height: 250px; 
+border: 1px solid rgba(255, 215, 0, 0.3); 
+border-radius: 10px; 
+background: #2a2a2a; 
+box-shadow: 0 5px 15px rgba(0,0,0,0.5), inset 0 2px 5px rgba(255, 215, 0, 0.1); 
+overflow: hidden; 
+} 
 
-/* Drop zone frame */
-.drop-zone {
-  position: relative;
-  width: 250px;
-  height: 250px;
-  border: 1px solid rgba(255, 215, 0, 0.3);
-  border-radius: 10px;
-  background: #2a2a2a;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.5), inset 0 2px 5px rgba(255, 215, 0, 0.1);
-  overflow: hidden;
-}
+.base-image { 
+width: 100%; 
+height: 100%; 
+object-fit: contain; 
+transition: transform 0.5s ease; 
+position: relative; z-index: 5; 
+filter: drop-shadow(0 5px 10px rgba(0,0,0,0.7)); 
+} 
 
-/* toolbar inside dropzone */
-.zone-toolbar{
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  right: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  z-index: 60;
-  pointer-events: none;
-}
-.zone-title{
-  pointer-events: none;
-  color: rgba(255,215,0,0.85);
-  font-weight: 700;
-  font-size: 0.9rem;
-}
-.zone-actions{
-  pointer-events: auto;
-}
-.toggle-side{
-  padding: 6px 10px;
-  border-radius: 8px;
-  font-size: 0.8rem;
-  background: rgba(255,215,0,0.9);
-  border: none;
-  cursor: pointer;
-}
+/* Zones: invisible but active */ 
+.finger-zone, .wrist-zone, .neck-zone, .ear-zone { 
+position: absolute; 
+z-index: 20; 
+background: transparent; 
+border: none; 
+} 
 
-/* scene wrapper (rotates for hand so zones + jewelry remain aligned) */
-.scene{
-  position: absolute;
-  inset: 0;
-  z-index: 10;
-}
+/* ✅ IMPORTANT FIX: position by data-zone (matches HTML) */ 
+/* Hand zones */ 
+.finger-zone { width: 25px; height: 40px; } 
+.finger-zone[data-zone="thumb"] { top: 150px; left: 30px; } 
+.finger-zone[data-zone="index"] { top: 100px; left: 60px; } 
+.finger-zone[data-zone="middle"] { top: 80px; left: 100px; } 
+.finger-zone[data-zone="ring"] { top: 90px; left: 130px; } 
+.finger-zone[data-zone="pinky"] { top: 110px; left: 160px; } 
 
-/* Base body image */
-.base-image {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  transition: transform 0.35s ease;
-  position: relative;
-  z-index: 5;
-  filter: drop-shadow(0 5px 10px rgba(0,0,0,0.7));
-}
+.wrist-zone { width: 60px; height: 30px; top: 200px; left: 110px; } 
 
-/* Zones: invisible but active */
-.finger-zone, .wrist-zone, .neck-zone, .ear-zone {
-  position: absolute;
-  z-index: 20;
-  background: transparent;
-  border: none;
-}
+/* Neck + ear zones */ 
+.neck-zone { width: 120px; height: 80px; top: 210px; left: 77px; } 
+.ear-zone { width: 25px; height: 25px; top: 125px; left: 170px; } 
 
-/* Hand zones (FRONT) */
-.finger-zone { width: 25px; height: 40px; }
-.finger-zone[data-zone="thumb"]  { top: 150px; left: 30px; }
-.finger-zone[data-zone="index"]  { top: 100px; left: 60px; }
-.finger-zone[data-zone="middle"] { top: 80px;  left: 100px; }
-.finger-zone[data-zone="ring"]   { top: 90px;  left: 130px; }
-.finger-zone[data-zone="pinky"]  { top: 110px; left: 160px; }
-.wrist-zone { width: 60px; height: 30px; top: 200px; left: 110px; }
+/* Buttons */ 
+.button-container { 
+display: flex; 
+justify-content: 
+center; gap: 10px;
+margin-top: 10px; 
+} 
+button { 
+margin: 0; 
+padding: 5px 15px; 
+background-color: #ffd700; 
+border: none; 
+cursor: pointer; 
+font-size: 0.9rem; 
+} 
 
-/* Neck + ear zones (FRONT) */
-.neck-zone { width: 120px; height: 80px; top: 210px; left: 77px; }
-.ear-zone  { width: 25px;  height: 25px; top: 125px; left: 170px; }
+/* Draggables */ 
+.draggable { 
+width: 80px; 
+height: auto; 
+margin: 5px; 
+cursor: move; 
+filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5)); 
+transition: width 0.2s ease, transform 0.2s ease; 
+z-index: 15; 
+} 
 
-/* Example BACK positions (you will tweak when you add back images) */
-#hand-drop[data-side="back"] .finger-zone[data-zone="thumb"]  { top: 145px; left: 40px; }
-#hand-drop[data-side="back"] .finger-zone[data-zone="index"]  { top: 95px;  left: 70px; }
-#hand-drop[data-side="back"] .finger-zone[data-zone="middle"] { top: 78px;  left: 105px; }
-#hand-drop[data-side="back"] .finger-zone[data-zone="ring"]   { top: 88px;  left: 135px; }
-#hand-drop[data-side="back"] .finger-zone[data-zone="pinky"]  { top: 108px; left: 165px; }
-#hand-drop[data-side="back"] .wrist-zone { top: 200px; left: 110px; }
+.draggable.dragging { 
+opacity: 0.7; 
+transition: none; 
+} 
 
-#neck-drop[data-side="back"] .neck-zone { top: 205px; left: 75px; }
-#ear-drop[data-side="back"]  .ear-zone  { top: 125px; left: 155px; }
+/* ✅ “Fit” system (JS sets --sj-rot, --sj-scale, --sj-dx, --sj-dy) */ 
+.draggable.on-finger, 
+.draggable.on-wrist, 
+.draggable.on-neck, 
+.draggable.on-ear { 
+position: absolute; 
+transform-origin: 
+center center; 
+z-index: 30; 
+transform: 
+translate(-50%, -50%) 
+translate(var(--sj-dx, 0px), var(--sj-dy, 0px)) 
+scale(var(--sj-scale, 1)) 
+rotate(var(--sj-rot, 0deg)); 
+filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.8)); 
+} 
 
-/* Buttons under hand scene */
-.button-container {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 10px;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  z-index: 70;
-}
+/* Base worn sizes (you can tweak these safely) */ 
+.draggable.on-finger {width: 40px; }
+.draggable.on-wrist { width: 60px; } 
+.draggable.on-neck { width: 120px; } 
+.draggable.on-ear { width: 30px; } 
 
-button {
-  margin: 0;
-  padding: 5px 15px;
-  background-color: #ffd700;
-  border: none;
-  cursor: pointer;
-  font-size: 0.9rem;
-  border-radius: 8px;
-}
+/* Mobile */ 
+@media (max-width: 768px) { 
+.hamburger { display: block; } 
 
-/* Draggables */
-.draggable {
-  width: 80px;
-  height: auto;
-  margin: 5px;
-  cursor: move;
-  filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
-  transition: width 0.2s ease, transform 0.2s ease;
-  z-index: 15;
-  touch-action: none;
-}
+.main-menu { 
+position: fixed; 
+top: 0; 
+right: -100%; 
+height: 100vh; 
+width: 250px; 
+background-color: #2a2a2a; 
+display: flex; 
+flex-direction: column; 
+justify-content: center; 
+align-items: center; 
+transition: right 0.3s ease; 
+z-index: 99; 
+} 
+.main-menu.active { right: 0; } 
+.main-menu ul { flex-direction: column; gap: 30px; text-align: center; } 
 
-.draggable.dragging {
-  opacity: 0.7;
-  transition: none;
-}
+.hamburger.active .bar:nth-child(2) { opacity: 0; } 
+.hamburger.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); } 
+.hamburger.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); } 
 
-.draggable.selected{
-  outline: 2px solid rgba(255,215,0,0.9);
-  outline-offset: 3px;
-  border-radius: 6px;
-}
+.section-pair { 
+flex-direction: column; 
+align-items: center;
+gap: 10px; 
+margin-bottom: 30px;
+ } 
 
-/* “Fit” system */
-.draggable.on-finger,
-.draggable.on-wrist,
-.draggable.on-neck,
-.draggable.on-ear {
-  position: absolute;
-  transform-origin: center center;
-  z-index: 30;
-  transform:
-    translate(-50%, -50%)
-    translate(var(--sj-dx, 0px), var(--sj-dy, 0px))
-    scale(var(--sj-scale, 1))
-    rotate(var(--sj-rot, 0deg));
-  filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.8));
-}
+.accessory-section, .drop-zone { width: 100%; padding: 10px; } 
+.accessory-section { min-height: 200px; } 
 
-/* Base worn sizes */
-.draggable.on-finger { width: 40px; }
-.draggable.on-wrist  { width: 60px; }
-.draggable.on-neck   { width: 120px; }
-.draggable.on-ear    { width: 30px; }
+.drop-zone { width: 200px; height: 200px; } 
 
-/* Mobile */
-@media (max-width: 768px) {
-  .hamburger { display: block; }
+.draggable { width: 60px; } 
+.draggable.on-finger { width: 30px; } 
+.draggable.on-wrist { width: 55px; } 
+.draggable.on-neck { width: 110px; } 
+.draggable.on-ear { width: 25px; } 
 
-  .main-menu {
-    position: fixed;
-    top: 0;
-    right: -100%;
-    height: 100vh;
-    width: 250px;
-    background-color: #2a2a2a;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    transition: right 0.3s ease;
-    z-index: 99;
-  }
-  .main-menu.active { right: 0; }
-  .main-menu ul { flex-direction: column; gap: 30px; text-align: center; }
+.finger-zone { width: 20px; height: 30px; } 
+.finger-zone[data-zone="thumb"] { top: 120px; left: 25px; } 
+.finger-zone[data-zone="index"] { top: 80px; left: 50px; } 
+.finger-zone[data-zone="middle"] { top: 60px; left: 80px; } 
+.finger-zone[data-zone="ring"] { top: 70px; left: 105px; } 
+.finger-zone[data-zone="pinky"] { top: 90px; left: 130px; } 
 
-  .hamburger.active .bar:nth-child(2) { opacity: 0; }
-  .hamburger.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-  .hamburger.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
-
-  .section-pair {
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 30px;
-  }
-
-  .accessory-section, .drop-zone { width: 100%; padding: 10px; }
-  .accessory-section { min-height: 200px; }
-
-  .drop-zone { width: 200px; height: 200px; }
-
-  .draggable { width: 60px; }
-  .draggable.on-finger { width: 30px; }
-  .draggable.on-wrist  { width: 55px; }
-  .draggable.on-neck   { width: 110px; }
-  .draggable.on-ear    { width: 25px; }
-
-  .finger-zone { width: 20px; height: 30px; }
-  .finger-zone[data-zone="thumb"]  { top: 120px; left: 25px; }
-  .finger-zone[data-zone="index"]  { top: 80px;  left: 50px; }
-  .finger-zone[data-zone="middle"] { top: 60px;  left: 80px; }
-  .finger-zone[data-zone="ring"]   { top: 70px;  left: 105px; }
-  .finger-zone[data-zone="pinky"]  { top: 90px;  left: 130px; }
-
-  .wrist-zone { width: 50px; height: 25px; top: 160px; left: 80px; }
-  .neck-zone  { width: 100px; height: 60px; top: 165px; left: 55px; }
-  .ear-zone   { width: 20px;  height: 20px; top: 100px; left: 125px; }
-
-  h1 { font-size: 1.5rem; }
-  p  { font-size: 0.9rem; }
-  .accessory-section h2 { font-size: 1rem; }
-  .sub-section h3 { font-size: 0.9rem; }
+.wrist-zone { width: 50px; height: 25px; top: 160px; left: 80px; } 
+.neck-zone { width: 100px; height: 60px; top: 165px; left: 55px; } 
+.ear-zone { width: 20px; height: 20px; top: 100px; left: 125px; } 
+h1 { font-size: 1.5rem; } 
+p { font-size: 0.9rem; } 
+.accessory-section h2 { font-size: 1rem; } 
+.sub-section h3 { font-size: 0.9rem; } 
 }
