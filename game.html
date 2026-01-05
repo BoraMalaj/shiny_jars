@@ -61,35 +61,41 @@
                         <img src="bracelet3-3d.png" class="draggable" draggable="true" alt="Bracelet 3">
                 </div>
             </div>
-            <div class="drop-zone hand-container">
-                <img src="hand-ai.png" class="base-image" id="hand" alt="Hand">
-                <div class="finger-zone" data-finger="thumb"></div>
-                <div class="finger-zone" data-finger="index"></div>
-                <div class="finger-zone" data-finger="middle"></div>
-                <div class="finger-zone" data-finger="ring"></div>
-                <div class="finger-zone" data-finger="pinky"></div>
-                <div class="wrist-zone" data-zone="wrist"></div>
-                <div class="button-container">
-                    <button id="rotate-left">Rotate Left</button>
-                    <button id="rotate-right">Rotate Right</button>
+            <div class="drop-zone hand-container" id="hand-drop" data-part="hand" data-side="front">
+             <div class="zone-toolbar">
+              <div class="zone-title">Hand</div>
+                <div class="zone-actions">
+                  <button class="toggle-side" data-target="hand-drop">Front/Back</button>
                 </div>
-            </div>
-        </div>
+   <div class="scene" id="hand-scene">
+      <img src="hand-ai.png" class="base-image" id="hand" alt="Hand">
+
+      <div class="finger-zone" data-zone="thumb"></div>
+      <div class="finger-zone" data-zone="index"></div>
+      <div class="finger-zone" data-zone="middle"></div>
+      <div class="finger-zone" data-zone="ring"></div>
+      <div class="finger-zone" data-zone="pinky"></div>
+      <div class="wrist-zone" data-zone="wrist"></div>
+   </div>
+    <div class="button-container">
+      <button id="rotate-left">Rotate Left</button>
+      <button id="rotate-right">Rotate Right</button>
+   </div>
+</div>
 
         <!-- Neck Section Pair -->
-        <div class="section-pair">
-            <div class="accessory-section neck-accessories">
-                <h2>Neck Accessories</h2>
-                <div class="accessory-items" id="neck-accessories">
-                    <img src="necklace1-3d.png" class="draggable" draggable="true" alt="Necklace 1">
-                    <img src="necklace2-3d.png" class="draggable" draggable="true" alt="Necklace 2">
-                    <img src="necklace3-3d.png" class="draggable" draggable="true" alt="Necklace 3" style="position: static; left: 172.6px; top: 1182.4px; transform: none;"></div>
-                </div>
-            <div class="drop-zone neck-container">
-                <img src="neck-ai.png" class="base-image" id="neck" alt="Neck">
-                <div class="neck-zone" data-zone="neck"></div>
+        <div class="drop-zone neck-container" id="neck-drop" data-part="neck" data-side="front">
+            <div class="zone-toolbar">
+            <div class="zone-title">Neck</div>
+            <div class="zone-actions">
+              <button class="toggle-side" data-target="neck-drop">Front/Back</button>
             </div>
-        </div>
+       </div>
+
+  <img src="neck-ai.png" class="base-image" id="neck" alt="Neck">
+  <div class="neck-zone" data-zone="neck"></div>
+</div>
+
 
         <!-- Ear Section Pair -->
         <div class="section-pair">
@@ -100,12 +106,18 @@
                     <img src="earring2-3d.png" class="draggable" draggable="true" alt="Earring 2">
                     <img src="earring3-3d.png" class="draggable" draggable="true" alt="Earring 3" style="position: static; left: 190.8px; top: 1607.8px; transform: none;"></div>
                 </div>
-            <div class="drop-zone ear-container">
-                <img src="ear-ai.png" class="base-image" id="ear" alt="Left Ear">
-                <div class="ear-zone" data-zone="left-ear"></div>
-            </div>
+        <div class="drop-zone ear-container" id="ear-drop" data-part="ear" data-side="front">
+         <div class="zone-toolbar">
+          <div class="zone-title">Ear</div>
+           <div class="zone-actions">
+             <button class="toggle-side" data-target="ear-drop">Front/Back</button>
+           </div>
         </div>
-    </div>
+
+  <img src="ear-ai.png" class="base-image" id="ear" alt="Ear">
+  <div class="ear-zone" data-zone="left-ear"></div>
+</div>
+
 
     <p>Screenshot and share with #ShinyJarFun!</p>
 
@@ -129,3 +141,4 @@
 </body>
 
 </html>
+
