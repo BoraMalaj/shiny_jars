@@ -30,6 +30,7 @@ margin: 0 auto;
 } 
 
 .logo-image { height: 50px; width: auto; } 
+.logo-text { font-size: 1.5rem; color: #ffd700; margin: 0; }
 
 .hamburger { 
 display: none; 
@@ -140,11 +141,11 @@ justify-content: center;
 position: relative; 
 width: 250px; 
 height: 250px; 
-border: 1px solid rgba(255, 215, 0, 0.3); 
+/*border: 1px solid rgba(255, 215, 0, 0.3); 
 border-radius: 10px; 
 background: #2a2a2a; 
 box-shadow: 0 5px 15px rgba(0,0,0,0.5), inset 0 2px 5px rgba(255, 215, 0, 0.1); 
-overflow: hidden; 
+overflow: hidden;*/
 } 
 
 .base-image { 
@@ -160,18 +161,18 @@ filter: drop-shadow(0 5px 10px rgba(0,0,0,0.7));
 .finger-zone, .wrist-zone, .neck-zone, .ear-zone { 
 position: absolute; 
 z-index: 20; 
-background: transparent; 
-border: none; 
+background: rgba(255, 215, 0, 0.3); 
+border: 2px dashed #ffd700; 
 } 
 
 /* ✅ IMPORTANT FIX: position by data-zone (matches HTML) */ 
 /* Hand zones */ 
 .finger-zone { width: 25px; height: 40px; } 
-.finger-zone[data-zone="thumb"] { top: 150px; left: 30px; } 
-.finger-zone[data-zone="index"] { top: 100px; left: 60px; } 
-.finger-zone[data-zone="middle"] { top: 80px; left: 100px; } 
-.finger-zone[data-zone="ring"] { top: 90px; left: 130px; } 
-.finger-zone[data-zone="pinky"] { top: 110px; left: 160px; } 
+.finger-zone[data-finger="thumb"] { top: 150px; left: 30px; } 
+.finger-zone[data-finger="index"] { top: 100px; left: 60px; } 
+.finger-zone[data-finger="middle"] { top: 80px; left: 100px; } 
+.finger-zone[data-finger="ring"] { top: 90px; left: 130px; } 
+.finger-zone[data-finger="pinky"] { top: 110px; left: 160px; } 
 
 .wrist-zone { width: 60px; height: 30px; top: 200px; left: 110px; } 
 
@@ -182,17 +183,17 @@ border: none;
 /* Buttons */ 
 .button-container { 
 display: flex; 
-justify-content: 
-center; gap: 10px;
+justify-content: center; 
+gap: 10px;
 margin-top: 10px; 
 } 
-button { 
+/*button { 
 margin: 0; 
 padding: 5px 15px; 
 background-color: #ffd700; 
 border: none; 
 cursor: pointer; 
-font-size: 0.9rem; 
+font-size: 0.9rem;*/
 } 
 
 /* Draggables */ 
@@ -212,31 +213,118 @@ transition: none;
 } 
 
 /* ✅ “Fit” system (JS sets --sj-rot, --sj-scale, --sj-dx, --sj-dy) */ 
-.draggable.on-finger, 
-.draggable.on-wrist, 
-.draggable.on-neck, 
-.draggable.on-ear { 
-position: absolute; 
-transform-origin: 
-center center; 
-z-index: 30; 
-transform: 
-translate(-50%, -50%) 
-translate(var(--sj-dx, 0px), var(--sj-dy, 0px)) 
-scale(var(--sj-scale, 1)) 
-rotate(var(--sj-rot, 0deg)); 
-filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.8)); 
+.draggable.on-finger {
+ width: 40px;
+ transform: translate(-50%, -50%) scale(0.8) rotate(15deg);
+ filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.8));
+}
+.draggable.on-wrist {
+ width: 60px;
+ transform: translate(-50%, -50%) scale(0.9) rotate(0deg);
+ filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.8));
+}
+.draggable.on-neck {
+ width: 120px;
+ transform: translate(-50%, -50%) scale(0.9) rotate(0deg);
+ filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.8));
+} 
+.draggable.on-ear {
+ width: 30px;
+ transform: translate(-50%, -50%) scale(0.8) rotate(15deg);
+ filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.8));
 } 
 
-/* Base worn sizes (you can tweak these safely) */ 
-.draggable.on-finger {width: 40px; }
-.draggable.on-wrist { width: 60px; } 
-.draggable.on-neck { width: 120px; } 
-.draggable.on-ear { width: 30px; } 
+button {
+ margin: 0;
+ padding: 5px, 15px;
+ background-color: #ffd700;
+ border: none;
+ cursor: pointer;
+ font-size: 0.9rem;
+}
+
+/* Start Page Styles */ 
+.start-page { 
+ display: flex; 
+ flex-direction: column; 
+ align-items: center; 
+ justify-content: center; 
+ min-height: 100vh; 
+ background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); 
+ /* Dark gradient background */ 
+ color: #e0e0e0; 
+ text-align: center; 
+ padding: 20px; 
+ position: relative; 
+ overflow: hidden; 
+} 
+
+.tagline { 
+ font-size: 2.5rem; 
+ color: #ffd700; 
+ /* Gold color */ 
+ text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); 
+ margin-bottom: 30px; 
+ animation: fadeIn 1s ease-in-out; 
+} 
+
+.jar-container { 
+ width: 300px; 
+ height: 300px; 
+ margin-bottom: 30px; 
+} 
+
+.rotating-jar { 
+ width: 100%; 
+ height: 100%; 
+ object-fit: contain; 
+ animation: rotateJar 4s linear infinite; /* 4-second rotation */ 
+ filter: drop-shadow(0 5px 15px rgba(255, 215, 0, 0.3)); 
+} 
+
+.continue-button { 
+ display: inline-block; 
+ padding: 10px 30px; 
+ background-color: #ffd700; 
+ color: #1a1a1a; 
+ text-decoration: none; 
+ font-size: 1.2rem; 
+ border-radius: 5px; 
+ transition: transform 0.3s ease, background-color 0.3s ease; 
+ animation: fadeIn 1s ease-in-out 1s; 
+} 
+
+.continue-button:hover { 
+ transform: scale(1.05); 
+ background-color: #e6c200; 
+} 
+
+/* Animations */ 
+@keyframes rotateJar { 
+ 0% { 
+  transform: perspective(1000px) rotateY(0deg); 
+ } 
+ 100% { 
+  transform: perspective(1000px) rotateY(360deg); 
+ } 
+} 
+
+@keyframes fadeIn { 
+ 0% { 
+  opacity: 0; 
+  transform: translateY(20px); 
+ } 
+ 100% { 
+  opacity: 1; 
+  transform: translateY(0); 
+ } 
+}
 
 /* Mobile */ 
 @media (max-width: 768px) { 
-.hamburger { display: block; } 
+.hamburger { 
+ display: block; 
+} 
 
 .main-menu { 
 position: fixed; 
@@ -252,13 +340,75 @@ align-items: center;
 transition: right 0.3s ease; 
 z-index: 99; 
 } 
-.main-menu.active { right: 0; } 
-.main-menu ul { flex-direction: column; gap: 30px; text-align: center; } 
 
-.hamburger.active .bar:nth-child(2) { opacity: 0; } 
-.hamburger.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); } 
-.hamburger.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); } 
+/* Start Page */ 
+.tagline { 
+ font-size: 1.25rem; 
+} 
+ 
+.jar-container { 
+ width: 240px; 
+ height: 240px; 
+} 
+ 
+.continue-button { 
+ font-size: 1rem; 
+ padding: 8px 25px; 
+} 
+/* End of Start Page */
 
+.main-menu.active { 
+ right: 0; 
+} 
+.main-menu ul { 
+ flex-direction: column; 
+ gap: 30px; 
+ text-align: center; 
+} 
+.main-menu a { 
+ font-size: 1.2rem; 
+ color: #e0e0e0; 
+}
+
+.hamburger.active .bar:nth-child(2) { 
+ opacity: 0; 
+} 
+.hamburger.active .bar:nth-child(1) { 
+ transform: translateY(8px) rotate(45deg); 
+} 
+.hamburger.active .bar:nth-child(3) { 
+ transform: translateY(-8px) rotate(-45deg); 
+} 
+
+.drop-zone { 
+ /* Add a subtle border and shadow for 3D effect */ 
+ border: 1px solid rgba(255, 215, 0, 0.3); 
+ /* Gold border with transparency */ 
+ border-radius: 10px; background: #2a2a2a; 
+ /* Match your dark theme */ 
+ box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5), inset 0 2px 5px rgba(255, 215, 0, 0.1); 
+ /* Outer shadow and inner glow */ 
+ transform: perspective(1000px) rotateX(0deg) rotateY(0deg); 
+ /* 3D perspective */ 
+ transition: transform 0.3s ease, box-shadow 0.3s ease; 
+} 
+ 
+.drop-zone:hover { 
+ /* Subtle lift and tilt on hover */ 
+ transform: perspective(1000px) rotateX(2deg) rotateY(-2deg) translateZ(10px); 
+ box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7), inset 0 2px 5px rgba(255, 215, 0, 0.2); 
+} 
+ 
+ /* Ensure the base image inside the container also looks 3D */ 
+.drop-zone .base-image { 
+ filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.7)); 
+ transition: transform 0.3s ease; 
+} 
+ 
+.drop-zone:hover .base-image { 
+ transform: scale(1.02); /* Slight zoom on hover */
+}
+ 
 .section-pair { 
 flex-direction: column; 
 align-items: center;
@@ -266,10 +416,18 @@ gap: 10px;
 margin-bottom: 30px;
  } 
 
-.accessory-section, .drop-zone { width: 100%; padding: 10px; } 
-.accessory-section { min-height: 200px; } 
+.accessory-section, .drop-zone { 
+ width: 100%; 
+ padding: 10px; 
+} 
+.accessory-section { 
+ min-height: 200px; 
+} 
 
-.drop-zone { width: 200px; height: 200px; } 
+.drop-zone { 
+ width: 200px; 
+ height: 200px; 
+} 
 
 .draggable { width: 60px; } 
 .draggable.on-finger { width: 30px; } 
@@ -278,11 +436,11 @@ margin-bottom: 30px;
 .draggable.on-ear { width: 25px; } 
 
 .finger-zone { width: 20px; height: 30px; } 
-.finger-zone[data-zone="thumb"] { top: 120px; left: 25px; } 
-.finger-zone[data-zone="index"] { top: 80px; left: 50px; } 
-.finger-zone[data-zone="middle"] { top: 60px; left: 80px; } 
-.finger-zone[data-zone="ring"] { top: 70px; left: 105px; } 
-.finger-zone[data-zone="pinky"] { top: 90px; left: 130px; } 
+.finger-zone[data-finger="thumb"] { top: 120px; left: 25px; } 
+.finger-zone[data-finger="index"] { top: 80px; left: 50px; } 
+.finger-zone[data-finger="middle"] { top: 60px; left: 80px; } 
+.finger-zone[data-finger="ring"] { top: 70px; left: 105px; } 
+.finger-zone[data-finger="pinky"] { top: 90px; left: 130px; } 
 
 .wrist-zone { width: 50px; height: 25px; top: 160px; left: 80px; } 
 .neck-zone { width: 100px; height: 60px; top: 165px; left: 55px; } 
